@@ -12,14 +12,14 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_list"
         android:name="com.example.taskfrog.ui.list.ListFragment"
-        android:label="@string/title_dashboard"
+        android:label="@string/title_list"
         tools:layout="@layout/fragment_list" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/navigation_calendar"
         android:name="com.example.taskfrog.ui.notifications.CalendarFragment"
-        android:label="@string/title_notifications"
+        android:label="@string/title_calendar"
         tools:layout="@layout/fragment_calendar" />
 </navigation>
