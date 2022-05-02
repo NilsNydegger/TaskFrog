@@ -20,7 +20,7 @@
 
     <fragment
         android:id="@+id/navigation_calendar"
-        android:name="com.example.taskfrog.ui.notifications.CalendarFragment"
+        android:name="com.example.taskfrog.ui.calendar.CalendarFragment"
         android:label="@string/title_calendar"
         android:icon="@drawable/ic_calendar_month_black_24dp"
         tools:layout="@layout/fragment_calendar" />

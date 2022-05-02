@@ -1,4 +1,4 @@
-package com.example.taskfrog.ui.notifications
+package com.example.taskfrog.ui.calendar
 
 import android.os.Bundle
 import android.view.LayoutInflater

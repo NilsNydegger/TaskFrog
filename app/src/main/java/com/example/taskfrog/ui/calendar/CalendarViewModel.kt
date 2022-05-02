@@ -1,4 +1,4 @@
-package com.example.taskfrog.ui.notifications
+package com.example.taskfrog.ui.calendar
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
