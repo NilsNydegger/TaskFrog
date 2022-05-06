@@ -6,5 +6,9 @@ import androidx.room.Entity
 
 @Entity(tableName = "list")
 class List(
-    @field:ColumnInfo(name = "name") val name: String
-)
+    @field:ColumnInfo(name = "name") val name: String,
+    @field:ColumnInfo(name = "description") val description: String
+) {
+    @PrimaryKey (autoGenerate = true)
+    var id = 0
+}
