@@ -1,5 +1,6 @@
 package com.example.taskfrog.db
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 
 @Dao
@@ -18,5 +19,6 @@ interface FroggyDAO {
     @Query("SELECT * FROM list WHERE name = :id")
     fun getByFroggyListId(id: String): ListAndTasks
 
-    //successfully suspended fun therefore likely resignation
+    @get:Query("SELECT * FROM list")
+    val froggyList: LiveData<List<FroggyList?>?>?
 }
