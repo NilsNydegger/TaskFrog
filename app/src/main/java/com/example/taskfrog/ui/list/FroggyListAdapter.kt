@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.taskfrog.R
 import com.example.taskfrog.db.FroggyList
 
-/*
-class FroggyListAdapter internal constructor(context: Context?) :
+
+class FroggyListAdapter internal constructor(context: ListFragment) :
     RecyclerView.Adapter<FroggyListAdapter.FroggyListViewHolder>(){
         inner class FroggyListViewHolder(itemView: View) :
             RecyclerView.ViewHolder(itemView) {
@@ -22,11 +22,31 @@ class FroggyListAdapter internal constructor(context: Context?) :
             }
 
     private val mInflater: LayoutInflater
-    private var mfroggyList: List<FroggyList>? = null
+    private var mfroggyLists: List<FroggyList>? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FroggyListViewHolder {
-        val itemView = mInflater.inflate(R.layout.recyclerview_item, parent, )
+        val itemView = mInflater.inflate(R.layout.recyclerview_item, parent, false)
+        return FroggyListViewHolder(itemView)
     }
 
+    override fun onBindViewHolder(holder: FroggyListViewHolder, position: Int) {
+        if(mfroggyLists != null) {
+            val current = mfroggyLists!![position]
+            holder.froggyListItemView.text = current.name
+        } else {
+            holder.froggyListItemView.text = "No Name"
+        }
+    }
 
+    fun setLists(lists: List<FroggyList>?) {
+        mfroggyLists = lists
+        notifyDataSetChanged()
+    }
+
+    override fun getItemCount(): Int {
+        return if (mfroggyLists != null) mfroggyLists!!.size else 0
+    }
+
+    init {
+        mInflater = LayoutInflater.from(this)
+    }
 }
- */
