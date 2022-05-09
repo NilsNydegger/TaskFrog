@@ -10,7 +10,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.taskfrog.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    private var mFroggyViewModel: FroggyListViewModel? = null
 
     private lateinit var binding: ActivityMainBinding
 

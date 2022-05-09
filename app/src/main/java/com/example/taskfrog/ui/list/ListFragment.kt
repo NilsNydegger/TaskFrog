@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,9 +13,6 @@ import com.example.taskfrog.databinding.FragmentListBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class ListFragment : Fragment() {
-
-    private var layoutManager : RecyclerView.LayoutManager? = null
-    private var adapter : RecyclerView.Adapter<FroggyListAdapter.FroggyListViewHolder>? = null
 
     private var _binding: FragmentListBinding? = null
 
@@ -33,33 +29,32 @@ class ListFragment : Fragment() {
             ViewModelProvider(this).get(ListViewModel::class.java)
 
         _binding = FragmentListBinding.inflate(inflater, container, false)
-        val root: View = binding.root
 
-        val textView: TextView = binding.textView
-        dashboardViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
-        return root
+        return binding.root
     }
-/*
-    override fun onViewCreated(itemView: View, savedInstanceState: Bundle?){
-        super.onViewCreated(itemView, savedInstanceState)
-        val recyclerView = getView()?.findViewById<RecyclerView>(R.id.recyclerView)
-        recyclerView.apply {
-            layoutManager = LinearLayoutManager(activity)
-            adapter = FroggyListAdapter(this@ListFragment)
+
+    override fun onViewCreated(listItemView: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(listItemView, savedInstanceState)
+        val listRecyclerview = view?.findViewById<RecyclerView>(R.id.recyclerView)
+        listRecyclerview?.layoutManager = LinearLayoutManager(this.context)
+
+        val data = ArrayList<ListItemsViewModel>()
+
+        val adapter = ListAdapter(data)
+
+        listRecyclerview?.adapter = adapter
+
+        val listFab : FloatingActionButton? = view?.findViewById(R.id.list_fab)
+        listFab?.setOnClickListener {
+            data.add(ListItemsViewModel("List"))
+            adapter.notifyDataSetChanged()
         }
 
-        val fab = getView()?.findViewById<FloatingActionButton>(R.id.floatingActionButton2)
-        fab?.setOnClickListener {
-            adapter.onCreateViewHolder()
-        }
+
+
     }
-*/
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
-
 }

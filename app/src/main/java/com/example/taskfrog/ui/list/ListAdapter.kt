@@ -17,9 +17,9 @@ class ListAdapter(private val mList: List<ListItemsViewModel>) : RecyclerView.Ad
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        val ListItemsViewModel = mList[position]
+        val listItemsViewModel = mList[position]
 
-        holder.textView.text = ListItemsViewModel.text
+        holder.textView.text = listItemsViewModel.text
     }
 
     override fun getItemCount(): Int {
