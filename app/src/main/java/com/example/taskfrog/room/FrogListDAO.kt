@@ -1,7 +1,9 @@
 package com.example.taskfrog.room
 
+import androidx.lifecycle.*
 import androidx.room.*
 
+@Dao
 interface FrogListDAO {
 
     //ListDAO
@@ -10,12 +12,12 @@ interface FrogListDAO {
     suspend fun addNewList(frogList: FrogList)
 
     @Query("SELECT * FROM FrogList ORDER BY list_name ASC")
-    fun getAllFrogLists(): ArrayList<FrogList>
+    fun getAllFrogLists(): LiveData<List<FrogList>>
 
     @Delete
     fun deleteFrogList(frogList: FrogList)
 
     @Update
-    fun changeFrogListProperties(frogList: FrogList?, list_name: String?, list_description: String?)
+    fun changeFrogListProperties(frogList: FrogList)
 
 }
