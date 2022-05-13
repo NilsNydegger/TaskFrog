@@ -4,12 +4,12 @@ import androidx.room.*
 
 interface FrogTaskDAO {
 
-    @Insert
-    fun addNewFrogTask(task_name: String?, task_description: String?, task_date: String?, frogListId: Int?)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun addNewFrogTask(frogTask: FrogTask?)
 
-    //TODO: Test this! Mightn't be correct *gradle gradle* but it seems nice
-    @Query("SELECT * FROM FrogTask WHERE belongs_to_list = :frogListId")
-    fun selectAllTasksFromList(frogListId: Int?): ArrayList<FrogTask>
+    //TODO: Test this! Mightn't be correct but it seems nice
+    @Query("SELECT * FROM FrogTask WHERE belongs_to_list = :frogListId ORDER BY task_name ASC")
+    fun getAllTasksFromList(frogListId: Int?): ArrayList<FrogTask>
 
     @Delete
     fun deleteFrogTask(frogTask: FrogTask?)

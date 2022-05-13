@@ -6,10 +6,10 @@ interface FrogListDAO {
 
     //ListDAO
 
-    @Insert
-    fun addNewList(list_name: String?, list_description: String?)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun addNewList(frogList: FrogList)
 
-    @Query("SELECT * FROM FrogList")
+    @Query("SELECT * FROM FrogList ORDER BY list_name ASC")
     fun getAllFrogLists(): ArrayList<FrogList>
 
     @Delete
