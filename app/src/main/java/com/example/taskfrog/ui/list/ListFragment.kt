@@ -1,6 +1,7 @@
 package com.example.taskfrog.ui.list
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -44,7 +45,7 @@ class ListFragment : Fragment() {
         itemList = ArrayList()
         listFab = view?.findViewById(R.id.list_fab)!!
         listRecyclerView = view?.findViewById(R.id.recyclerView)!!
-        listAdapter = ListAdapter(this.requireContext(),itemList)
+        listAdapter = ListAdapter(this.requireContext(),itemList){ position -> onListItemClick(position)}
         listRecyclerView.layoutManager = LinearLayoutManager(this.requireContext())
         listRecyclerView.adapter = listAdapter
         listFab.setOnClickListener {
@@ -76,6 +77,13 @@ class ListFragment : Fragment() {
         }
         addDialog.create()
         addDialog.show()
+    }
+
+    private fun onListItemClick(position: Int) {
+        val intent = Intent(this.requireContext(), TaskActivity::class.java).apply {
+
+        }
+        startActivity(intent)
     }
 
     override fun onDestroyView() {

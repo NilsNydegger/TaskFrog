@@ -10,4 +10,7 @@
     <string name="listTitle">Title</string>
     <string name="more">more</string>
     <string name="addbutton">AddButton</string>
+    <string name="add_taskName" />
+    <string name="date">Date</string>
+    <string name="description">Description</string>
 </resources>

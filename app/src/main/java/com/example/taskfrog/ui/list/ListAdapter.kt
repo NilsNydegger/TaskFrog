@@ -9,13 +9,14 @@ import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskfrog.R
 
-class ListAdapter(val c: Context,val mList: ArrayList<ListData>) : RecyclerView.Adapter<ListAdapter.ListViewHolder>() {
+class ListAdapter(val c: Context,val mList: ArrayList<ListData>, private val onItemClicked: (position: Int) -> Unit) : RecyclerView.Adapter<ListAdapter.ListViewHolder>() {
 
-    inner class ListViewHolder(val v: View) : RecyclerView.ViewHolder(v) {
+    inner class ListViewHolder(v: View, private val onItemClicked: (position: Int) -> Unit) : RecyclerView.ViewHolder(v), View.OnClickListener {
         var listName: TextView
         var mMenus: ImageView
 
         init {
+            v.setOnClickListener(this)
             listName = v.findViewById<TextView>(R.id.mTitle)
             mMenus = v.findViewById(R.id.mMenus)
             mMenus.setOnClickListener {
@@ -82,12 +83,17 @@ class ListAdapter(val c: Context,val mList: ArrayList<ListData>) : RecyclerView.
             menu.javaClass.getDeclaredMethod("setForceShowIcon", Boolean::class.java)
                 .invoke(menu, true)
         }
+
+        override fun onClick(v: View) {
+            val position = adapterPosition
+            onItemClicked(position)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val v = inflater.inflate(R.layout.list_item,parent, false)
-        return ListViewHolder(v)
+        return ListViewHolder(v, onItemClicked)
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {

@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TaskFrog">
         <activity
-            android:name=".AddFroggyListActivity"
+            android:name=".ui.list.TaskActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
