@@ -1,32 +1,102 @@
 package com.example.taskfrog.ui.list
 
+import android.app.AlertDialog
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskfrog.R
 
-class ListAdapter(private val mList: List<ListItemsViewModel>) : RecyclerView.Adapter<ListAdapter.ViewHolder>() {
+class ListAdapter(val c: Context,val mList: ArrayList<ListData>) : RecyclerView.Adapter<ListAdapter.ListViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.cardview_design, parent, false)
+    inner class ListViewHolder(val v: View) : RecyclerView.ViewHolder(v) {
+        var listName: TextView
+        var mMenus: ImageView
 
-        return ViewHolder(view)
+        init {
+            listName = v.findViewById<TextView>(R.id.mTitle)
+            mMenus = v.findViewById(R.id.mMenus)
+            mMenus.setOnClickListener {
+                popupMenus(it)
+            }
+        }
+
+        private fun popupMenus(v:View) {
+            val position = mList[adapterPosition]
+            val popupMenus = PopupMenu(c, v)
+            popupMenus.inflate(R.menu.show_menu)
+            popupMenus.setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.editText -> {
+                        val v = LayoutInflater.from(c).inflate(R.layout.add_list, null)
+                        val name = v.findViewById<EditText>(R.id.listName)
+                        AlertDialog.Builder(c)
+                            .setView(v)
+                            .setPositiveButton("Ok") { dialog, _ ->
+                                position.name = name.text.toString()
+                                notifyDataSetChanged()
+                                Toast.makeText(c, "List Name is Edited", Toast.LENGTH_SHORT).show()
+                                dialog.dismiss()
+
+                            }
+                            .setNegativeButton("Cancel") { dialog, _ ->
+                                dialog.dismiss()
+
+                            }
+                            .create()
+                            .show()
+
+                        true
+                    }
+                    R.id.delete -> {
+                        /**set delete*/
+                        AlertDialog.Builder(c)
+                            .setTitle("Delete")
+                            .setIcon(R.drawable.ic_warning)
+                            .setMessage("Are you sure delete this Information")
+                            .setPositiveButton("Yes") { dialog, _ ->
+                                mList.removeAt(adapterPosition)
+                                notifyDataSetChanged()
+                                Toast.makeText(c, "Deleted this Information", Toast.LENGTH_SHORT)
+                                    .show()
+                                dialog.dismiss()
+                            }
+                            .setNegativeButton("No") { dialog, _ ->
+                                dialog.dismiss()
+                            }
+                            .create()
+                            .show()
+
+                        true
+                    }
+                    else -> true
+                }
+
+            }
+            popupMenus.show()
+            val popup = PopupMenu::class.java.getDeclaredField("mPopup")
+            popup.isAccessible = true
+            val menu = popup.get(popupMenus)
+            menu.javaClass.getDeclaredMethod("setForceShowIcon", Boolean::class.java)
+                .invoke(menu, true)
+        }
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        val v = inflater.inflate(R.layout.list_item,parent, false)
+        return ListViewHolder(v)
+    }
 
-        val listItemsViewModel = mList[position]
-
-        holder.textView.text = listItemsViewModel.text
+    override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
+        val newList = mList[position]
+        holder.listName.text = newList.name
     }
 
     override fun getItemCount(): Int {
         return mList.size
     }
 
-    class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
-        val textView: TextView = itemView.findViewById(R.id.textView)
-    }
 }

@@ -5,4 +5,9 @@
     <string name="title_calendar">Calendar</string>
     <string name="list_fab" />
     <string name="list_item">Item</string>
+    <string name="add_listName">Add List Name</string>
+    <string name="name">Name</string>
+    <string name="listTitle">Title</string>
+    <string name="more">more</string>
+    <string name="addbutton">AddButton</string>
 </resources>

@@ -1,9 +1,12 @@
 package com.example.taskfrog.ui.list
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,7 +16,10 @@ import com.example.taskfrog.databinding.FragmentListBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class ListFragment : Fragment() {
-
+    private lateinit var listFab : FloatingActionButton
+    private lateinit var listRecyclerView : RecyclerView
+    private lateinit var itemList : ArrayList<ListData>
+    private lateinit var listAdapter: ListAdapter
     private var _binding: FragmentListBinding? = null
 
     // This property is only valid between onCreateView and
@@ -35,24 +41,43 @@ class ListFragment : Fragment() {
 
     override fun onViewCreated(listItemView: View, savedInstanceState: Bundle?) {
         super.onViewCreated(listItemView, savedInstanceState)
-        val listRecyclerview = view?.findViewById<RecyclerView>(R.id.recyclerView)
-        listRecyclerview?.layoutManager = LinearLayoutManager(this.context)
-
-        val data = ArrayList<ListItemsViewModel>()
-
-        val adapter = ListAdapter(data)
-
-        listRecyclerview?.adapter = adapter
-
-        val listFab : FloatingActionButton? = view?.findViewById(R.id.list_fab)
-        listFab?.setOnClickListener {
-            data.add(ListItemsViewModel("List"))
-            adapter.notifyDataSetChanged()
+        itemList = ArrayList()
+        listFab = view?.findViewById(R.id.list_fab)!!
+        listRecyclerView = view?.findViewById(R.id.recyclerView)!!
+        listAdapter = ListAdapter(this.requireContext(),itemList)
+        listRecyclerView.layoutManager = LinearLayoutManager(this.requireContext())
+        listRecyclerView.adapter = listAdapter
+        listFab.setOnClickListener {
+            addName()
         }
 
-
-
     }
+
+    private fun addName() {
+        val inflater = LayoutInflater.from(this.requireContext())
+        val v = inflater.inflate(R.layout.add_list, null)
+        val listName = v.findViewById<EditText>(R.id.listName)
+
+        val addDialog = AlertDialog.Builder(this.requireContext())
+
+        addDialog.setView(v)
+        addDialog.setPositiveButton("Ok"){
+            dialog,_ ->
+            val name = listName.text.toString()
+            itemList.add(ListData(name))
+            listAdapter.notifyDataSetChanged()
+            Toast.makeText(this.requireContext(), "Adding List Success", Toast.LENGTH_SHORT).show()
+            dialog.dismiss()
+        }
+        addDialog.setNegativeButton("Cancel"){
+            dialog, _ ->
+            dialog.dismiss()
+            Toast.makeText(this.requireContext(), "Cancel", Toast.LENGTH_SHORT).show()
+        }
+        addDialog.create()
+        addDialog.show()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
