@@ -1,7 +1,9 @@
 package com.example.taskfrog.room
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 
+@Dao
 interface FrogTaskDAO {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
@@ -9,12 +11,12 @@ interface FrogTaskDAO {
 
     //TODO: Test this! Mightn't be correct but it seems nice
     @Query("SELECT * FROM FrogTask WHERE belongs_to_list = :frogListId ORDER BY task_name ASC")
-    fun getAllTasksFromList(frogListId: Int?): ArrayList<FrogTask>
+    fun getAllTasksFromList(frogListId: Int): LiveData<List<FrogTask>>
 
     @Delete
     fun deleteFrogTask(frogTask: FrogTask?)
 
     @Update
-    fun changeFrogTaskProperties(frogTask: FrogTask?, task_name: String?, task_description: String?, task_date: String?)
+    fun changeFrogTaskProperties(frogTask: FrogTask?)
 
 }

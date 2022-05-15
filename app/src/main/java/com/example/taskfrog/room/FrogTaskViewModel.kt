@@ -5,18 +5,14 @@ import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-/*
+class FrogTaskViewModel(application: Application, listId: Int): AndroidViewModel(application){
 
-class FrogTaskViewModel(application: Application): AndroidViewModel(application){
-
-    private val getAllTasks: ArrayList<FrogTask>
     private val frogTaskRepository: FrogTaskRepository
-
+    private var getAllTasks: LiveData<List<FrogTask>>
     init {
-        val frogTaskDAO = FrogDatabase.getInstance(application)?.frogTaskDao()
-        frogTaskRepository = frogTaskDAO?.let { FrogTaskRepository(it) }!!
-        // ^ The parameter ListID is missing, I don't know how that works, I'll look at it after a break
-        getAllTasks = frogTaskRepository.getAllFrogTasks
+        val frogTaskDatabase = FrogDatabase.getDatabase(application)?.frogTaskDao()
+        frogTaskRepository = FrogTaskRepository(frogTaskDatabase!!, listId)
+        getAllTasks = frogTaskRepository.getAllFrogTasks(listId)
     }
 
     fun addFrogList(frogTask: FrogTask){
@@ -26,5 +22,3 @@ class FrogTaskViewModel(application: Application): AndroidViewModel(application)
     }
 
 }
-
-*/
