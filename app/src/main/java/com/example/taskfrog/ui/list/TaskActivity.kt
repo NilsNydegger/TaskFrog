@@ -1,17 +1,26 @@
 package com.example.taskfrog.ui.list
 
+import android.app.DatePickerDialog
+import android.icu.text.MessageFormat.format
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.format.DateFormat.*
 import android.view.LayoutInflater
-import android.widget.EditText
-import android.widget.Toast
+import android.view.View
+import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskfrog.R
 import com.example.taskfrog.databinding.ActivityTaskBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import java.lang.String.format
+import java.text.DateFormat
+import java.text.MessageFormat.format
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -21,6 +30,8 @@ class TaskActivity : AppCompatActivity() {
     private lateinit var taskRecyclerView : RecyclerView
     private lateinit var taskList : ArrayList<TaskData>
     private lateinit var taskAdapter: TaskAdapter
+    private lateinit var date : String
+    var cal = Calendar.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,16 +54,29 @@ class TaskActivity : AppCompatActivity() {
         val inflater = LayoutInflater.from(this)
         val v = inflater.inflate(R.layout.add_task, null)
         val taskName = v.findViewById<EditText>(R.id.taskName)
-        val dueDate = v.findViewById<EditText>(R.id.taskDate)
+        val dueDate = v.findViewById<Button>(R.id.taskDate)
         val description = v.findViewById<EditText>(R.id.taskDescription)
         val addDialog = AlertDialog.Builder(this)
-        val df = SimpleDateFormat("dd-MM-yyyy")
+
+        val dateSetListener = object : DatePickerDialog.OnDateSetListener {
+            override fun onDateSet(view: DatePicker, year: Int, monthOfYear: Int, dayOfMonth: Int) {
+                cal.set(Calendar.YEAR, year)
+                cal.set(Calendar.MONTH, monthOfYear)
+                cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                updateDateInView()
+            }
+        }
+
+        dueDate!!.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(view : View) {
+                DatePickerDialog(this@TaskActivity, dateSetListener, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)).show()
+            }
+        })
 
         addDialog.setView(v)
         addDialog.setPositiveButton("Ok"){
             dialog,_->
             val name = taskName.text.toString()
-            val date = df.parse(dueDate.toString()) as Date
             val description = description.text.toString()
             taskList.add(TaskData(name,date,description))
             taskAdapter.notifyDataSetChanged()
@@ -66,5 +90,11 @@ class TaskActivity : AppCompatActivity() {
         }
         addDialog.create()
         addDialog.show()
+    }
+
+    private fun updateDateInView() {
+        val myFormat = "dd.MM.yyyy"
+        val sdf = SimpleDateFormat(myFormat, Locale.GERMAN)
+        date = sdf.format(cal.getTime())
     }
 }

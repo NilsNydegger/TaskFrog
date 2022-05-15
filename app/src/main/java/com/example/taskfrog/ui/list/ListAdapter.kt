@@ -27,7 +27,7 @@ class ListAdapter(val c: Context,val mList: ArrayList<ListData>, private val onI
         private fun popupMenus(v:View) {
             val position = mList[adapterPosition]
             val popupMenus = PopupMenu(c, v)
-            popupMenus.inflate(R.menu.show_menu)
+            popupMenus.inflate(R.menu.show_menu_list)
             popupMenus.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.editText -> {
@@ -56,11 +56,11 @@ class ListAdapter(val c: Context,val mList: ArrayList<ListData>, private val onI
                         AlertDialog.Builder(c)
                             .setTitle("Delete")
                             .setIcon(R.drawable.ic_warning)
-                            .setMessage("Are you sure delete this Information")
+                            .setMessage("Are you sure delete this List?")
                             .setPositiveButton("Yes") { dialog, _ ->
                                 mList.removeAt(adapterPosition)
                                 notifyDataSetChanged()
-                                Toast.makeText(c, "Deleted this Information", Toast.LENGTH_SHORT)
+                                Toast.makeText(c, "Deleted this List", Toast.LENGTH_SHORT)
                                     .show()
                                 dialog.dismiss()
                             }

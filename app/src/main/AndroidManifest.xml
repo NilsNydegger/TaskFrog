@@ -11,6 +11,7 @@
         android:theme="@style/Theme.TaskFrog">
         <activity
             android:name=".ui.list.TaskActivity"
+            android:label="Tasks"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

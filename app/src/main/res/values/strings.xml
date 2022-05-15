@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">Task Frog</string>
     <string name="title_home">Home</string>
-    <string name="title_list">List</string>
+    <string name="title_list">Lists</string>
     <string name="title_calendar">Calendar</string>
     <string name="list_fab" />
     <string name="list_item">Item</string>
-    <string name="add_listName">Add List Name</string>
+    <string name="add_listName">Add List</string>
     <string name="name">Name</string>
     <string name="listTitle">Title</string>
     <string name="more">more</string>
@@ -13,4 +13,14 @@
     <string name="add_taskName" />
     <string name="date">Date</string>
     <string name="description">Description</string>
+    <string name="due_date">Due Date</string>
+    <string name="edit_list">Edit List</string>
+    <string name="delete_list">Delete List</string>
+    <string name="edit_task">Edit Task</string>
+    <string name="delete_task">Delete Task</string>
+    <string name="enter_task_name">Enter Task Name</string>
+    <string name="add_task_information">Add Task Information</string>
+    <string name="enter_list_name">Enter List Name</string>
+    <string name="select_due_date">Select Due Date</string>
+    <string name="enter_description">Enter Description</string>
 </resources>

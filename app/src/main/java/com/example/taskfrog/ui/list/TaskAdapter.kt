@@ -8,23 +8,22 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskfrog.R
-import java.text.SimpleDateFormat
-import java.util.*
+import java.text.DateFormat
 import kotlin.collections.ArrayList
 
 class TaskAdapter(val c: Context, val mTask: ArrayList<TaskData>) : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
 
-    inner class TaskViewHolder(v: View) : RecyclerView.ViewHolder(v) {
+    inner class TaskViewHolder(vTask: View) : RecyclerView.ViewHolder(vTask) {
         var taskName: TextView
         var dueDate: TextView
         var description: TextView
         var mMenus: ImageView
 
         init {
-            taskName = v.findViewById<TextView>(R.id.mTaskName)
-            dueDate = v.findViewById<TextView>(R.id.mDate)
-            description = v.findViewById<TextView>(R.id.mDescription)
-            mMenus = v.findViewById(R.id.mMenus)
+            taskName = vTask.findViewById<TextView>(R.id.mTaskName)
+            dueDate = vTask.findViewById<TextView>(R.id.mDate)
+            description = vTask.findViewById<TextView>(R.id.mDescription)
+            mMenus = vTask.findViewById(R.id.mMenus)
             mMenus.setOnClickListener {
                 popupMenus(it)
             }
@@ -33,21 +32,20 @@ class TaskAdapter(val c: Context, val mTask: ArrayList<TaskData>) : RecyclerView
         private fun popupMenus(v: View) {
             val position = mTask[adapterPosition]
             val popupMenus = PopupMenu(c, v)
-            popupMenus.inflate(R.menu.show_menu)
+            popupMenus.inflate(R.menu.show_menu_task)
             popupMenus.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.editText -> {
-                        val v = LayoutInflater.from(c).inflate(R.layout.add_task, null)
-                        val name = v.findViewById<EditText>(R.id.taskName)
-                        val date = v.findViewById<EditText>(R.id.taskDate)
-                        val description = v.findViewById<EditText>(R.id.taskDescription)
-                        val df = SimpleDateFormat("dd-MM-yyyy")
+                        val vTask = LayoutInflater.from(c).inflate(R.layout.add_task, null)
+                        val name = vTask.findViewById<EditText>(R.id.taskName)
+                        val date = vTask.findViewById<EditText>(R.id.taskDate)
+                        val description = vTask.findViewById<EditText>(R.id.taskDescription)
                             AlertDialog.Builder(c)
-                                .setView(v)
+                                .setView(vTask)
                                 .setPositiveButton("Ok") {
                                     dialog,_->
                                     position.name = name.text.toString()
-                                    position.dueDate = df.parse(date.toString()) as Date
+                                    position.dueDate = DateFormat.getDateInstance().format(date)
                                     position.description = description.text.toString()
                                     notifyDataSetChanged()
                                     Toast.makeText(c, "Task Edited", Toast.LENGTH_SHORT).show()
@@ -69,11 +67,11 @@ class TaskAdapter(val c: Context, val mTask: ArrayList<TaskData>) : RecyclerView
                         AlertDialog.Builder(c)
                             .setTitle("Delete")
                             .setIcon(R.drawable.ic_warning)
-                            .setMessage("Are you sure delete this Information")
+                            .setMessage("Are you sure delete this Task?")
                             .setPositiveButton("Yes") { dialog, _ ->
                                 mTask.removeAt(adapterPosition)
                                 notifyDataSetChanged()
-                                Toast.makeText(c, "Deleted this Information", Toast.LENGTH_SHORT)
+                                Toast.makeText(c, "Deleted Task", Toast.LENGTH_SHORT)
                                     .show()
                                 dialog.dismiss()
                             }
@@ -100,14 +98,14 @@ class TaskAdapter(val c: Context, val mTask: ArrayList<TaskData>) : RecyclerView
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskAdapter.TaskViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val v = inflater.inflate(R.layout.list_item,parent, false)
-        return TaskViewHolder(v)
+        val vTask = inflater.inflate(R.layout.task_item,parent, false)
+        return TaskViewHolder(vTask)
     }
 
     override fun onBindViewHolder(holder: TaskAdapter.TaskViewHolder, position: Int) {
         val newTask = mTask[position]
         holder.taskName.text = newTask.name
-        holder.dueDate.text = newTask.dueDate.toString()
+        holder.dueDate.text = newTask.dueDate
         holder.description.text = newTask.description
     }
 

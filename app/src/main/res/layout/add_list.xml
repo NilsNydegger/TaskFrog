@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"/>
         <EditText
             android:id="@+id/listName"
-            android:hint="@string/name"
+            android:hint="@string/enter_list_name"
             android:inputType="textPersonName"
             android:textColor="@color/purple_500"
             android:textSize="18sp"
