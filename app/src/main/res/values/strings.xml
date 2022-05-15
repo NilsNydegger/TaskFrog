@@ -21,6 +21,6 @@
     <string name="enter_task_name">Enter Task Name</string>
     <string name="add_task_information">Add Task Information</string>
     <string name="enter_list_name">Enter List Name</string>
-    <string name="select_due_date">Select Due Date</string>
     <string name="enter_description">Enter Description</string>
+    <string name="select_due_date">Select Due Date</string>
 </resources>
