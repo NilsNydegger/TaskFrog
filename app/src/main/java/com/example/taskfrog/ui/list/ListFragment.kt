@@ -23,8 +23,6 @@ class ListFragment : Fragment() {
     private lateinit var listAdapter: ListAdapter
     private var _binding: FragmentListBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -32,8 +30,7 @@ class ListFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val dashboardViewModel =
-            ViewModelProvider(this).get(ListViewModel::class.java)
+        ViewModelProvider(this).get(ListViewModel::class.java)
 
         _binding = FragmentListBinding.inflate(inflater, container, false)
 
@@ -45,7 +42,7 @@ class ListFragment : Fragment() {
         itemList = ArrayList()
         listFab = view?.findViewById(R.id.list_fab)!!
         listRecyclerView = view?.findViewById(R.id.recyclerView)!!
-        listAdapter = ListAdapter(this.requireContext(),itemList){ position -> onListItemClick(position)}
+        listAdapter = ListAdapter(this.requireContext(),itemList){ onListItemClick() }
         listRecyclerView.layoutManager = LinearLayoutManager(this.requireContext())
         listRecyclerView.adapter = listAdapter
         listFab.setOnClickListener {
@@ -66,7 +63,7 @@ class ListFragment : Fragment() {
             dialog,_ ->
             val name = listName.text.toString()
             itemList.add(ListData(name))
-            listAdapter.notifyDataSetChanged()
+            listAdapter.notifyItemChanged(1)
             Toast.makeText(this.requireContext(), "Adding List Success", Toast.LENGTH_SHORT).show()
             dialog.dismiss()
         }
@@ -79,7 +76,7 @@ class ListFragment : Fragment() {
         addDialog.show()
     }
 
-    private fun onListItemClick(position: Int) {
+    private fun onListItemClick() {
         val intent = Intent(this.requireContext(), TaskActivity::class.java).apply {
 
         }

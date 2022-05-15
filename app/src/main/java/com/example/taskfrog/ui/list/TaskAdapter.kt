@@ -1,5 +1,6 @@
 package com.example.taskfrog.ui.list
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.view.LayoutInflater
@@ -14,21 +15,18 @@ import kotlin.collections.ArrayList
 class TaskAdapter(val c: Context, val mTask: ArrayList<TaskData>) : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
 
     inner class TaskViewHolder(vTask: View) : RecyclerView.ViewHolder(vTask) {
-        var taskName: TextView
-        var dueDate: TextView
-        var description: TextView
-        var mMenus: ImageView
+        var taskName: TextView = vTask.findViewById(R.id.mTaskName)
+        var dueDate: TextView = vTask.findViewById(R.id.mDate)
+        var description: TextView = vTask.findViewById(R.id.mDescription)
+        private var mMenus: ImageView = vTask.findViewById(R.id.mMenus)
 
         init {
-            taskName = vTask.findViewById<TextView>(R.id.mTaskName)
-            dueDate = vTask.findViewById<TextView>(R.id.mDate)
-            description = vTask.findViewById<TextView>(R.id.mDescription)
-            mMenus = vTask.findViewById(R.id.mMenus)
             mMenus.setOnClickListener {
                 popupMenus(it)
             }
         }
 
+        @SuppressLint("DiscouragedPrivateApi")
         private fun popupMenus(v: View) {
             val position = mTask[adapterPosition]
             val popupMenus = PopupMenu(c, v)
@@ -47,7 +45,7 @@ class TaskAdapter(val c: Context, val mTask: ArrayList<TaskData>) : RecyclerView
                                     position.name = name.text.toString()
                                     position.dueDate = DateFormat.getDateInstance().format(date)
                                     position.description = description.text.toString()
-                                    notifyDataSetChanged()
+                                    notifyItemChanged(1)
                                     Toast.makeText(c, "Task Edited", Toast.LENGTH_SHORT).show()
                                     dialog.dismiss()
 
@@ -70,7 +68,7 @@ class TaskAdapter(val c: Context, val mTask: ArrayList<TaskData>) : RecyclerView
                             .setMessage("Are you sure delete this Task?")
                             .setPositiveButton("Yes") { dialog, _ ->
                                 mTask.removeAt(adapterPosition)
-                                notifyDataSetChanged()
+                                notifyItemChanged(1)
                                 Toast.makeText(c, "Deleted Task", Toast.LENGTH_SHORT)
                                     .show()
                                 dialog.dismiss()

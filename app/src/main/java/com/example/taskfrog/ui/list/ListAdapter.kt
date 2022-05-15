@@ -1,5 +1,6 @@
 package com.example.taskfrog.ui.list
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.view.LayoutInflater
@@ -13,17 +14,18 @@ class ListAdapter(val c: Context,val mList: ArrayList<ListData>, private val onI
 
     inner class ListViewHolder(v: View, private val onItemClicked: (position: Int) -> Unit) : RecyclerView.ViewHolder(v), View.OnClickListener {
         var listName: TextView
-        var mMenus: ImageView
+        private var mMenus: ImageView
 
         init {
             v.setOnClickListener(this)
-            listName = v.findViewById<TextView>(R.id.mTitle)
+            listName = v.findViewById(R.id.mTitle)
             mMenus = v.findViewById(R.id.mMenus)
             mMenus.setOnClickListener {
                 popupMenus(it)
             }
         }
 
+        @SuppressLint("DiscouragedPrivateApi", "InflateParams")
         private fun popupMenus(v:View) {
             val position = mList[adapterPosition]
             val popupMenus = PopupMenu(c, v)
@@ -31,13 +33,13 @@ class ListAdapter(val c: Context,val mList: ArrayList<ListData>, private val onI
             popupMenus.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.editText -> {
-                        val v = LayoutInflater.from(c).inflate(R.layout.add_list, null)
-                        val name = v.findViewById<EditText>(R.id.listName)
+                        val view = LayoutInflater.from(c).inflate(R.layout.add_list, null)
+                        val name = view.findViewById<EditText>(R.id.listName)
                         AlertDialog.Builder(c)
                             .setView(v)
                             .setPositiveButton("Ok") { dialog, _ ->
                                 position.name = name.text.toString()
-                                notifyDataSetChanged()
+                                notifyItemChanged(1)
                                 Toast.makeText(c, "List Name is Edited", Toast.LENGTH_SHORT).show()
                                 dialog.dismiss()
 
@@ -59,7 +61,7 @@ class ListAdapter(val c: Context,val mList: ArrayList<ListData>, private val onI
                             .setMessage("Are you sure delete this List?")
                             .setPositiveButton("Yes") { dialog, _ ->
                                 mList.removeAt(adapterPosition)
-                                notifyDataSetChanged()
+                                notifyItemChanged(1)
                                 Toast.makeText(c, "Deleted this List", Toast.LENGTH_SHORT)
                                     .show()
                                 dialog.dismiss()
