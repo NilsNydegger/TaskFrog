@@ -1,13 +1,13 @@
-package com.example.taskfrog.ui.dashboard
+package com.example.taskfrog.ui.calendar
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class DashboardViewModel : ViewModel() {
+class CalendarViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is dashboard Fragment"
+        value = "This is Calendar Fragment"
     }
     val text: LiveData<String> = _text
 }

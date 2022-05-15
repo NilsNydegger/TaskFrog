@@ -12,14 +12,16 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.example.taskfrog.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_list"
+        android:name="com.example.taskfrog.ui.list.ListFragment"
+        android:label="@string/title_list"
+        android:icon="@drawable/ic_list_black_24dp"
+        tools:layout="@layout/fragment_list" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.example.taskfrog.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_calendar"
+        android:name="com.example.taskfrog.ui.calendar.CalendarFragment"
+        android:label="@string/title_calendar"
+        android:icon="@drawable/ic_calendar_month_black_24dp"
+        tools:layout="@layout/fragment_calendar" />
 </navigation>
