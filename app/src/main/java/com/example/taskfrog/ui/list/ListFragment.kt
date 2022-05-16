@@ -26,7 +26,7 @@ class ListFragment : Fragment() {
     private lateinit var listFloatingActionButton : FloatingActionButton
     private lateinit var listRecyclerView : RecyclerView
     private lateinit var itemList : List<FrogList>
-    private lateinit var listAdapter: ListAdapter
+    //private lateinit var listAdapter: ListAdapter
     private lateinit var listViewModel: FrogListViewModel
     private var _binding: FragmentListBinding? = null
 
@@ -53,7 +53,7 @@ class ListFragment : Fragment() {
         listRecyclerView = view?.findViewById(R.id.recyclerView)!!
         //listAdapter = ListAdapter(this.requireContext(),itemList){ position -> onListItemClick(position)}
         listRecyclerView.layoutManager = LinearLayoutManager(this.requireContext())
-        listRecyclerView.adapter = listAdapter
+        //listRecyclerView.adapter = listAdapter
         listFloatingActionButton.setOnClickListener {
             insertList()
         }
@@ -100,7 +100,7 @@ class ListFragment : Fragment() {
 
             val listName = addListName.text.toString()
 
-            if (inputCheck(listName)) {
+            if (!inputCheck(listName)) {
                 val frogList = FrogList(0, listName)
                 listViewModel.addFrogList(frogList)
                 if (listName == "forg") {
