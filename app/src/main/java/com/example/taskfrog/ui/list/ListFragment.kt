@@ -14,10 +14,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskfrog.R
 import com.example.taskfrog.databinding.FragmentListBinding
+import com.example.taskfrog.room.FrogListViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class ListFragment : Fragment() {
-    private lateinit var listFab : FloatingActionButton
+    private lateinit var listFloatingActionButton : FloatingActionButton
     private lateinit var listRecyclerView : RecyclerView
     private lateinit var itemList : ArrayList<ListData>
     private lateinit var listAdapter: ListAdapter
@@ -32,29 +33,30 @@ class ListFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val dashboardViewModel =
-            ViewModelProvider(this).get(ListViewModel::class.java)
+        val listViewModel =
+            ViewModelProvider(this).get(FrogListViewModel::class.java)
 
         _binding = FragmentListBinding.inflate(inflater, container, false)
 
         return binding.root
     }
 
+    //TODO Change Data Retrieval to Room DB Access
     override fun onViewCreated(listItemView: View, savedInstanceState: Bundle?) {
         super.onViewCreated(listItemView, savedInstanceState)
         itemList = ArrayList()
-        listFab = view?.findViewById(R.id.list_fab)!!
+        listFloatingActionButton = view?.findViewById(R.id.list_fab)!!
         listRecyclerView = view?.findViewById(R.id.recyclerView)!!
         listAdapter = ListAdapter(this.requireContext(),itemList){ position -> onListItemClick(position)}
         listRecyclerView.layoutManager = LinearLayoutManager(this.requireContext())
         listRecyclerView.adapter = listAdapter
-        listFab.setOnClickListener {
-            addName()
+        listFloatingActionButton.setOnClickListener {
+            addList()
         }
 
     }
 
-    private fun addName() {
+    private fun addList() {
         val inflater = LayoutInflater.from(this.requireContext())
         val v = inflater.inflate(R.layout.add_list, null)
         val listName = v.findViewById<EditText>(R.id.listName)
@@ -79,6 +81,7 @@ class ListFragment : Fragment() {
         addDialog.show()
     }
 
+    //TODO Use Fragment instead of Intent
     private fun onListItemClick(position: Int) {
         val intent = Intent(this.requireContext(), TaskActivity::class.java).apply {
 

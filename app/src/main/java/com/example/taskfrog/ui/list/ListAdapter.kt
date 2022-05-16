@@ -9,7 +9,12 @@ import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskfrog.R
 
-class ListAdapter(val c: Context,val mList: ArrayList<ListData>, private val onItemClicked: (position: Int) -> Unit) : RecyclerView.Adapter<ListAdapter.ListViewHolder>() {
+class ListAdapter(
+        val c: Context,
+        val mList: ArrayList<ListData>,
+        private val onItemClicked: (position: Int) -> Unit
+    ) : RecyclerView.Adapter<ListAdapter.ListViewHolder>()
+{
 
     inner class ListViewHolder(v: View, private val onItemClicked: (position: Int) -> Unit) : RecyclerView.ViewHolder(v), View.OnClickListener {
         var listName: TextView
