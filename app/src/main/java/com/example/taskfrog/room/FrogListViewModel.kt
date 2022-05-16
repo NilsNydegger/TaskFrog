@@ -21,4 +21,10 @@ class FrogListViewModel(application: Application): AndroidViewModel(application)
         }
     }
 
+    fun getAllFrogLists(){
+        viewModelScope.launch(Dispatchers.IO){
+            repository.getAllFrogLists()
+        }
+    }
+
 }

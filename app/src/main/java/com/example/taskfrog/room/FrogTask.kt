@@ -9,5 +9,6 @@ data class FrogTask(
     @ColumnInfo var task_name: String?,
     @ColumnInfo var task_description: String?,
     @ColumnInfo var task_date: Date?,
+    @ColumnInfo var task_done: Boolean?,
     @ColumnInfo var belongs_to_list: Int?
 )
