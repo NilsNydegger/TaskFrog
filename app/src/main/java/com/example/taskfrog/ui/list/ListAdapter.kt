@@ -8,11 +8,12 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskfrog.R
+import com.example.taskfrog.room.FrogList
 
 class ListAdapter(
-        val c: Context,
-        val mList: ArrayList<ListData>,
-        private val onItemClicked: (position: Int) -> Unit
+    val c: Context,
+    val mList: List<FrogList>,
+    private val onItemClicked: (position: Int) -> Unit
     ) : RecyclerView.Adapter<ListAdapter.ListViewHolder>()
 {
 
@@ -41,7 +42,7 @@ class ListAdapter(
                         AlertDialog.Builder(c)
                             .setView(v)
                             .setPositiveButton("Ok") { dialog, _ ->
-                                position.name = name.text.toString()
+                                position.list_name = name.text.toString()
                                 notifyDataSetChanged()
                                 Toast.makeText(c, "List Name is Edited", Toast.LENGTH_SHORT).show()
                                 dialog.dismiss()
@@ -63,7 +64,7 @@ class ListAdapter(
                             .setIcon(R.drawable.ic_warning)
                             .setMessage("Are you sure delete this List?")
                             .setPositiveButton("Yes") { dialog, _ ->
-                                mList.removeAt(adapterPosition)
+                                mList.(adapterPosition)
                                 notifyDataSetChanged()
                                 Toast.makeText(c, "Deleted this List", Toast.LENGTH_SHORT)
                                     .show()

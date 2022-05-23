@@ -14,13 +14,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskfrog.R
 import com.example.taskfrog.databinding.FragmentListBinding
+import com.example.taskfrog.room.FrogList
 import com.example.taskfrog.room.FrogListViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class ListFragment : Fragment() {
     private lateinit var listFloatingActionButton : FloatingActionButton
     private lateinit var listRecyclerView : RecyclerView
-    private lateinit var itemList : ArrayList<ListData>
+    private lateinit var itemList : List<FrogList>
     private lateinit var listAdapter: ListAdapter
     private var _binding: FragmentListBinding? = null
 
