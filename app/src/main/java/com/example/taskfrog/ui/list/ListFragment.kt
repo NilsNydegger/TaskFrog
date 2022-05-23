@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,7 +24,8 @@ class ListFragment : Fragment() {
     private lateinit var listViewModel: FrogListViewModel
     private lateinit var listFloatingActionButton : FloatingActionButton
     private lateinit var listRecyclerView : RecyclerView
-    private val adapter = ListAdapter()
+    private lateinit var adapter: ListAdapter
+    private lateinit var listList: LiveData<List<FrogList>>
     private var _binding: FragmentListBinding? = null
     private val binding get() = _binding!!
 
@@ -42,6 +44,7 @@ class ListFragment : Fragment() {
         super.onViewCreated(listItemView, savedInstanceState)
         listFloatingActionButton = view?.findViewById(R.id.list_fab)!!
         listRecyclerView = view?.findViewById(R.id.recyclerView)!!
+        adapter = ListAdapter(this.requireContext()){ position -> onListItemClick(position) }
         listRecyclerView.layoutManager = LinearLayoutManager(this.requireContext())
         listFloatingActionButton.setOnClickListener {
             insertList()
@@ -52,9 +55,6 @@ class ListFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         listViewModel = ViewModelProvider(this)[FrogListViewModel::class.java]
-        listViewModel.getAllLists.observe(viewLifecycleOwner) { list ->
-            adapter.setData(list)
-        }
 
     }
 

@@ -12,7 +12,7 @@ interface FrogListDAO {
     suspend fun addNewList(frogList: FrogList)
 
     @Query("SELECT * FROM FrogList ORDER BY list_name ASC")
-    fun getAllFrogLists(): LiveData<List<FrogList>>
+    fun getAllFrogLists(): List<FrogList>
 
     @Delete
     fun deleteFrogList(frogList: FrogList)
