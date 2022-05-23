@@ -23,7 +23,6 @@ class ListFragment : Fragment() {
     private lateinit var listViewModel: FrogListViewModel
     private lateinit var listFloatingActionButton : FloatingActionButton
     private lateinit var listRecyclerView : RecyclerView
-    private lateinit var itemList : List<FrogList>
     private val adapter = ListAdapter()
     private var _binding: FragmentListBinding? = null
     private val binding get() = _binding!!
@@ -35,6 +34,19 @@ class ListFragment : Fragment() {
     ): View {
         _binding = FragmentListBinding.inflate(inflater, container, false)
 
+        return binding.root
+    }
+
+    //TODO Change Data Retrieval to Room DB Access
+    override fun onViewCreated(listItemView: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(listItemView, savedInstanceState)
+        listFloatingActionButton = view?.findViewById(R.id.list_fab)!!
+        listRecyclerView = view?.findViewById(R.id.recyclerView)!!
+        listRecyclerView.layoutManager = LinearLayoutManager(this.requireContext())
+        listFloatingActionButton.setOnClickListener {
+            insertList()
+        }
+
         val recyclerView = binding.recyclerView
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -42,20 +54,6 @@ class ListFragment : Fragment() {
         listViewModel = ViewModelProvider(this)[FrogListViewModel::class.java]
         listViewModel.getAllLists.observe(viewLifecycleOwner) { list ->
             adapter.setData(list)
-        }
-
-        return binding.root
-    }
-
-    //TODO Change Data Retrieval to Room DB Access
-    override fun onViewCreated(listItemView: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(listItemView, savedInstanceState)
-        itemList = ArrayList()
-        listFloatingActionButton = view?.findViewById(R.id.list_fab)!!
-        listRecyclerView = view?.findViewById(R.id.recyclerView)!!
-        listRecyclerView.layoutManager = LinearLayoutManager(this.requireContext())
-        listFloatingActionButton.setOnClickListener {
-            insertList()
         }
 
     }
@@ -76,6 +74,7 @@ class ListFragment : Fragment() {
             if (!inputCheck(listName)) {
                 val frogList = FrogList(0, listName)
                 listViewModel.addFrogList(frogList)
+                adapter.notifyDataSetChanged()
                 if (listName == "forg") {
                     Toast.makeText(
                         requireContext(), "Good job forg <3", Toast.LENGTH_LONG).show()
@@ -87,8 +86,6 @@ class ListFragment : Fragment() {
                 Toast.makeText(
                     requireContext(), "Please add a List Name", Toast.LENGTH_LONG).show()
             }
-
-            adapter.setData(adapter.listOfFrogLists)
 
             dialog.dismiss()
 
