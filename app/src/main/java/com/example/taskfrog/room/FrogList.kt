@@ -6,5 +6,4 @@ import androidx.room.*
 data class FrogList(
     @PrimaryKey(autoGenerate = true) var frogListId: Int? = null,
     @ColumnInfo var list_name: String?,
-    @ColumnInfo var list_description: String?
     )

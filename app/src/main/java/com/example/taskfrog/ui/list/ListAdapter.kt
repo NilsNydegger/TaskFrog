@@ -6,12 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskfrog.R
+import com.example.taskfrog.room.FrogList
+import com.example.taskfrog.room.FrogListViewModel
 
 class ListAdapter(
         val c: Context,
-        val mList: ArrayList<ListData>,
+        val frogLists: List<FrogList>?,
+        val listFragment : ListFragment,
         private val onItemClicked: (position: Int) -> Unit
     ) : RecyclerView.Adapter<ListAdapter.ListViewHolder>()
 {
@@ -19,6 +23,7 @@ class ListAdapter(
     inner class ListViewHolder(v: View, private val onItemClicked: (position: Int) -> Unit) : RecyclerView.ViewHolder(v), View.OnClickListener {
         var listName: TextView
         var mMenus: ImageView
+        var mFrogListViewModel = ViewModelProvider(listFragment).get(FrogListViewModel::class.java)
 
         init {
             v.setOnClickListener(this)
@@ -30,7 +35,7 @@ class ListAdapter(
         }
 
         private fun popupMenus(v:View) {
-            val position = mList[adapterPosition]
+            val position = mFrogLists!![adapterPosition]
             val popupMenus = PopupMenu(c, v)
             popupMenus.inflate(R.menu.show_menu_list)
             popupMenus.setOnMenuItemClickListener {
@@ -41,7 +46,8 @@ class ListAdapter(
                         AlertDialog.Builder(c)
                             .setView(v)
                             .setPositiveButton("Ok") { dialog, _ ->
-                                position.name = name.text.toString()
+                                position.list_name = name.text.toString()
+                                mFrogListViewModel.updateFrogList(position)
                                 notifyDataSetChanged()
                                 Toast.makeText(c, "List Name is Edited", Toast.LENGTH_SHORT).show()
                                 dialog.dismiss()
@@ -63,7 +69,7 @@ class ListAdapter(
                             .setIcon(R.drawable.ic_warning)
                             .setMessage("Are you sure delete this List?")
                             .setPositiveButton("Yes") { dialog, _ ->
-                                mList.removeAt(adapterPosition)
+                                mFrogListViewModel.deleteFrogList(position)
                                 notifyDataSetChanged()
                                 Toast.makeText(c, "Deleted this List", Toast.LENGTH_SHORT)
                                     .show()
@@ -101,13 +107,23 @@ class ListAdapter(
         return ListViewHolder(v, onItemClicked)
     }
 
+    private var mFrogLists: List<FrogList>? = null
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        val newList = mList[position]
-        holder.listName.text = newList.name
+        val current = mFrogLists!![position]
+        holder.listName.text = current.list_name
     }
 
     override fun getItemCount(): Int {
-        return mList.size
+        if(mFrogLists == null){
+            return 0
+        } else {
+            return mFrogLists!!.size
+        }
+    }
+
+    fun setFrogLists(frogLists: List<FrogList>?) {
+        mFrogLists = frogLists
+        notifyDataSetChanged()
     }
 
 }

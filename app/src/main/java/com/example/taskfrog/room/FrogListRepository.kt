@@ -6,7 +6,7 @@ class FrogListRepository (private val frogListDAO: FrogListDAO) {
 
     fun getAllFrogLists(): LiveData<List<FrogList>> = frogListDAO.getAllFrogLists()
 
-    suspend fun addFrogList(frogList: FrogList){
+    suspend fun addFrogList(frogList: FrogList?){
         frogListDAO.addNewList(frogList)
     }
 

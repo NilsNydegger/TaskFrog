@@ -8,16 +8,28 @@ import kotlinx.coroutines.launch
 class FrogListViewModel(application: Application): AndroidViewModel(application) {
 
     private val repository: FrogListRepository
-    private var getAllLists: LiveData<List<FrogList>>
+    var getAllLists: LiveData<List<FrogList>>
     init {
         val frogListDatabase = FrogDatabase.getDatabase(application)?.frogListDao()
         repository = FrogListRepository(frogListDatabase!!)
         getAllLists = repository.getAllFrogLists()
     }
 
-    fun addFrogList(frogList: FrogList){
+    fun addFrogList(frogList: FrogList?){
         viewModelScope.launch(Dispatchers.IO){
             repository.addFrogList(frogList)
+        }
+    }
+
+    fun updateFrogList(frogList: FrogList){
+        viewModelScope.launch(Dispatchers.IO){
+            repository.updateFrogList(frogList)
+        }
+    }
+
+    fun deleteFrogList(frogList: FrogList){
+        viewModelScope.launch(Dispatchers.IO){
+            repository.deleteFrogList(frogList)
         }
     }
 
