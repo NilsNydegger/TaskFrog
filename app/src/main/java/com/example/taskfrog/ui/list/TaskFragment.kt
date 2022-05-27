@@ -1,62 +1,68 @@
 package com.example.taskfrog.ui.list
 
 import android.app.DatePickerDialog
-import android.icu.text.MessageFormat.format
-import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.format.DateFormat.*
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.*
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskfrog.R
-import com.example.taskfrog.databinding.ActivityTaskBinding
+import com.example.taskfrog.databinding.FragmentListBinding
+import com.example.taskfrog.room.FrogTask
+import com.example.taskfrog.room.FrogTaskViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import java.lang.String.format
-import java.text.DateFormat
-import java.text.MessageFormat.format
 import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.util.*
-import kotlin.collections.ArrayList
 
-class TaskActivity : AppCompatActivity() {
-
+class TaskFragment : Fragment() {
     private lateinit var taskFab : FloatingActionButton
     private lateinit var taskRecyclerView : RecyclerView
-    private lateinit var taskList : ArrayList<TaskData>
     private lateinit var taskAdapter: TaskAdapter
+    private lateinit var mFrogTaskViewModel : FrogTaskViewModel
+    private var _binding : FragmentListBinding? = null
     private lateinit var date : String
     var cal = Calendar.getInstance()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_task)
+    private val binding get() = _binding!!
 
-        taskList = ArrayList()
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentListBinding.inflate(inflater, container, false)
 
-        taskFab = findViewById(R.id.task_fab)
-        taskRecyclerView = findViewById(R.id.taskRecyclerView)
+        return binding.root
+    }
 
-        taskAdapter = TaskAdapter(this,taskList)
-
-        taskRecyclerView.layoutManager = LinearLayoutManager(this)
+    override fun onViewCreated(taskItemView: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(taskItemView, savedInstanceState)
+        taskFab = view?.findViewById(R.id.task_fab)!!
+        taskRecyclerView = view?.findViewById(R.id.taskRecyclerView)!!
+        taskAdapter = TaskAdapter(this.requireContext(),this)
+        taskRecyclerView.layoutManager = LinearLayoutManager(this.requireContext())
         taskRecyclerView.adapter = taskAdapter
-
-        taskFab.setOnClickListener{ addTask() }
+        mFrogTaskViewModel = ViewModelProvider(this).get(FrogTaskViewModel::class.java)
+        mFrogTaskViewModel!!.getAllTasks!!.observe(viewLifecycleOwner) {
+                frogTasks -> taskAdapter.setFrogTasks(frogTasks)
+        }
+        taskFab.setOnClickListener{
+            addTask()
+        }
     }
 
     private fun addTask() {
-        val inflater = LayoutInflater.from(this)
+        val inflater = LayoutInflater.from(this.requireContext())
         val v = inflater.inflate(R.layout.add_task, null)
         val taskName = v.findViewById<EditText>(R.id.taskName)
         val dueDate = v.findViewById<Button>(R.id.taskDate)
         val description = v.findViewById<EditText>(R.id.taskDescription)
-        val addDialog = AlertDialog.Builder(this)
+        val addDialog = AlertDialog.Builder(this.requireContext())
 
         val dateSetListener = object : DatePickerDialog.OnDateSetListener {
             override fun onDateSet(view: DatePicker, year: Int, monthOfYear: Int, dayOfMonth: Int) {
@@ -69,24 +75,25 @@ class TaskActivity : AppCompatActivity() {
 
         dueDate!!.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view : View) {
-                DatePickerDialog(this@TaskActivity, dateSetListener, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)).show()
+                DatePickerDialog(this@TaskFragment.requireContext(), dateSetListener, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)).show()
             }
         })
 
         addDialog.setView(v)
         addDialog.setPositiveButton("Ok"){
-            dialog,_->
+                dialog,_->
             val name = taskName.text.toString()
             val description = description.text.toString()
-            taskList.add(TaskData(name,date,description))
+            val frogTask = FrogTask(null, name, description, date, null)
+            mFrogTaskViewModel.addFrogTask(frogTask)
             taskAdapter.notifyDataSetChanged()
-            Toast.makeText(this, "Adding Task Success", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this.requireContext(), "Adding Task Success", Toast.LENGTH_SHORT).show()
             dialog.dismiss()
         }
         addDialog.setNegativeButton("Cancel"){
-            dialog,_->
+                dialog,_->
             dialog.dismiss()
-            Toast.makeText(this, "Cancel", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this.requireContext(), "Cancel", Toast.LENGTH_SHORT).show()
         }
         addDialog.create()
         addDialog.show()

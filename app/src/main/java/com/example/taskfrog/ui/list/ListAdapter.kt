@@ -13,11 +13,10 @@ import com.example.taskfrog.room.FrogList
 import com.example.taskfrog.room.FrogListViewModel
 
 class ListAdapter(
-        val c: Context,
-        val frogLists: List<FrogList>?,
-        val listFragment : ListFragment,
-        private val onItemClicked: (position: Int) -> Unit
-    ) : RecyclerView.Adapter<ListAdapter.ListViewHolder>()
+    val c: Context,
+    val listFragment: ListFragment,
+    private val onItemClicked: (position: Int) -> Unit
+) : RecyclerView.Adapter<ListAdapter.ListViewHolder>()
 {
 
     inner class ListViewHolder(v: View, private val onItemClicked: (position: Int) -> Unit) : RecyclerView.ViewHolder(v), View.OnClickListener {

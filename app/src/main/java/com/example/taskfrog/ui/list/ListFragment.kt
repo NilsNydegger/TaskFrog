@@ -1,7 +1,6 @@
 package com.example.taskfrog.ui.list
 
 import android.app.AlertDialog
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,8 +8,6 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,6 +16,7 @@ import com.example.taskfrog.databinding.FragmentListBinding
 import com.example.taskfrog.room.FrogList
 import com.example.taskfrog.room.FrogListViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+
 
 class ListFragment : Fragment() {
     private lateinit var listFloatingActionButton : FloatingActionButton
@@ -42,18 +40,16 @@ class ListFragment : Fragment() {
         return binding.root
     }
 
-    //TODO Change Data Retrieval to Room DB Access
     override fun onViewCreated(listItemView: View, savedInstanceState: Bundle?) {
         super.onViewCreated(listItemView, savedInstanceState)
         listFloatingActionButton = view?.findViewById(R.id.list_fab)!!
         listRecyclerView = view?.findViewById(R.id.recyclerView)!!
-        val frogLists : List<FrogList>? = null
-        listAdapter = ListAdapter(this.requireContext(), frogLists, this){ position -> onListItemClick(position)}
+        listAdapter = ListAdapter(this.requireContext(), this){ position -> onListItemClick(position)}
         listRecyclerView.layoutManager = LinearLayoutManager(this.requireContext())
         listRecyclerView.adapter = listAdapter
         mFrogListViewModel = ViewModelProvider(this).get(FrogListViewModel::class.java)
-        mFrogListViewModel!!.getAllLists!!.observe(viewLifecycleOwner) { frogLists ->
-            listAdapter.setFrogLists(frogLists as List<FrogList>?)
+        mFrogListViewModel!!.getAllLists!!.observe(viewLifecycleOwner) {
+                frogLists -> listAdapter.setFrogLists(frogLists)
         }
         listFloatingActionButton.setOnClickListener {
             addList()
@@ -63,8 +59,8 @@ class ListFragment : Fragment() {
 
     private fun addList() {
         val inflater = LayoutInflater.from(this.requireContext())
-        val v = inflater.inflate(R.layout.add_list, null)
-        val listName = v.findViewById<EditText>(R.id.listName)
+        val v = inflater.inflate(com.example.taskfrog.R.layout.add_list, null)
+        val listName = v.findViewById<EditText>(com.example.taskfrog.R.id.listName)
 
         val addDialog = AlertDialog.Builder(this.requireContext())
 
@@ -87,20 +83,16 @@ class ListFragment : Fragment() {
         addDialog.show()
     }
 
-    //TODO Use Fragment instead of Intent
     private fun onListItemClick(position: Int) {
-        val intent = Intent(this.requireContext(), TaskActivity::class.java).apply {
-
-        }
-        startActivity(intent)
+        val taskFragment = TaskFragment()
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(this.id, taskFragment, "findThisFragment")
+            .addToBackStack(null)
+            .commit()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    fun getFrogListViewModel() : FrogListViewModel{
-        return mFrogListViewModel
     }
 }

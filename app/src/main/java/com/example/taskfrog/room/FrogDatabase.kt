@@ -5,7 +5,7 @@ import androidx.room.*
 
 @Database(
     entities = [FrogList::class, FrogTask::class],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 @TypeConverters(Converters::class)
