@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskfrog.R
 import com.example.taskfrog.databinding.FragmentListBinding
+import com.example.taskfrog.databinding.FragmentTaskBinding
 import com.example.taskfrog.room.FrogTask
 import com.example.taskfrog.room.FrogTaskViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -24,7 +25,7 @@ class TaskFragment : Fragment() {
     private lateinit var taskRecyclerView : RecyclerView
     private lateinit var taskAdapter: TaskAdapter
     private lateinit var mFrogTaskViewModel : FrogTaskViewModel
-    private var _binding : FragmentListBinding? = null
+    private var _binding : FragmentTaskBinding? = null
     private lateinit var date : String
     var cal = Calendar.getInstance()
 
@@ -35,7 +36,7 @@ class TaskFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentListBinding.inflate(inflater, container, false)
+        _binding = FragmentTaskBinding.inflate(inflater, container, false)
 
         return binding.root
     }

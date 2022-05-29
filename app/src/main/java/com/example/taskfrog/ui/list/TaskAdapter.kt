@@ -139,7 +139,11 @@ class TaskAdapter(
     }
 
     override fun getItemCount(): Int {
-        return mFrogTasks!!.size
+       if(mFrogTasks == null){
+           return 0
+       } else {
+           return mFrogTasks!!.size
+       }
     }
 
     private fun updateDateInView() {
