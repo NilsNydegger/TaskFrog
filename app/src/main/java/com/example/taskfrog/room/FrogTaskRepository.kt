@@ -2,7 +2,7 @@ package com.example.taskfrog.room
 
 import androidx.lifecycle.LiveData
 
-class FrogTaskRepository (private val frogTaskDAO: FrogTaskDAO, listId: Int) {
+class FrogTaskRepository (private val frogTaskDAO: FrogTaskDAO) {
 
     fun getAllFrogTasks(listId: Int): LiveData<List<FrogTask>> = frogTaskDAO.getAllTasksFromList(listId)
 

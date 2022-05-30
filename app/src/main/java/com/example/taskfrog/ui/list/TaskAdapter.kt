@@ -29,7 +29,7 @@ class TaskAdapter(
         var dueDate: TextView
         var description: TextView
         var mMenus: ImageView
-        var mFrogTaskViewModel = ViewModelProvider(taskFragment).get(FrogTaskViewModel::class.java)
+        var mFrogTaskViewModel = ViewModelProvider(taskFragment)[FrogTaskViewModel::class.java]
 
         init {
             taskName = vTask.findViewById<TextView>(R.id.mTaskName)

@@ -9,6 +9,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskfrog.R
@@ -48,7 +49,7 @@ class ListFragment : Fragment() {
         listRecyclerView.layoutManager = LinearLayoutManager(this.requireContext())
         listRecyclerView.adapter = listAdapter
         mFrogListViewModel = ViewModelProvider(this).get(FrogListViewModel::class.java)
-        mFrogListViewModel!!.getAllLists!!.observe(viewLifecycleOwner) {
+        mFrogListViewModel.getAllLists.observe(viewLifecycleOwner) {
                 frogLists -> listAdapter.setFrogLists(frogLists)
         }
         listFloatingActionButton.setOnClickListener {
@@ -85,10 +86,12 @@ class ListFragment : Fragment() {
 
     private fun onListItemClick(position: Int) {
         val taskFragment = TaskFragment()
-        requireActivity().supportFragmentManager.beginTransaction()
-            .replace(this.id, taskFragment, "findThisFragment")
-            .addToBackStack(null)
-            .commit()
+        taskFragment.setListId(0) //TODO Replace Position with Id of List
+        //requireActivity().supportFragmentManager.beginTransaction()
+        //    .replace(this.id, taskFragment, "findThisFragment")
+        //    .addToBackStack(null)
+        //    .commit()
+        findNavController().navigate(R.id.action_navigation_list_to_taskFragment)
     }
 
     override fun onDestroyView() {

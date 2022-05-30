@@ -1,5 +1,6 @@
 package com.example.taskfrog.ui.list
 
+import android.app.Application
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -20,6 +21,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.text.SimpleDateFormat
 import java.util.*
 
+//TODO Back Button and Title of Fragment
+
 class TaskFragment : Fragment() {
     private lateinit var taskFab : FloatingActionButton
     private lateinit var taskRecyclerView : RecyclerView
@@ -27,6 +30,7 @@ class TaskFragment : Fragment() {
     private lateinit var mFrogTaskViewModel : FrogTaskViewModel
     private var _binding : FragmentTaskBinding? = null
     private lateinit var date : String
+    var tempListId: Int = 0
     var cal = Calendar.getInstance()
 
     private val binding get() = _binding!!
@@ -48,8 +52,9 @@ class TaskFragment : Fragment() {
         taskAdapter = TaskAdapter(this.requireContext(),this)
         taskRecyclerView.layoutManager = LinearLayoutManager(this.requireContext())
         taskRecyclerView.adapter = taskAdapter
-        mFrogTaskViewModel = ViewModelProvider(this).get(FrogTaskViewModel::class.java)
-        mFrogTaskViewModel!!.getAllTasks!!.observe(viewLifecycleOwner) {
+        mFrogTaskViewModel = ViewModelProvider(this)[FrogTaskViewModel::class.java]
+        mFrogTaskViewModel.lateInitialize(tempListId)
+        mFrogTaskViewModel.getAllTasks?.observe(viewLifecycleOwner) {
                 frogTasks -> taskAdapter.setFrogTasks(frogTasks)
         }
         taskFab.setOnClickListener{
@@ -85,7 +90,7 @@ class TaskFragment : Fragment() {
                 dialog,_->
             val name = taskName.text.toString()
             val description = description.text.toString()
-            val frogTask = FrogTask(null, name, description, date, null)
+            val frogTask = FrogTask(null, name, description, date, 0)
             mFrogTaskViewModel.addFrogTask(frogTask)
             taskAdapter.notifyDataSetChanged()
             Toast.makeText(this.requireContext(), "Adding Task Success", Toast.LENGTH_SHORT).show()
@@ -104,5 +109,9 @@ class TaskFragment : Fragment() {
         val myFormat = "dd.MM.yyyy"
         val sdf = SimpleDateFormat(myFormat, Locale.GERMAN)
         date = sdf.format(cal.getTime())
+    }
+
+    public fun setListId(listId: Int){
+        this.tempListId = listId
     }
 }
