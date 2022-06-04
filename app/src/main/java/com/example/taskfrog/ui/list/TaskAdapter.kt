@@ -7,14 +7,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskfrog.R
-import java.text.DateFormat
+import com.example.taskfrog.room.FrogTask
+import com.example.taskfrog.room.FrogTaskViewModel
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
-class TaskAdapter(val c: Context, val mTask: ArrayList<TaskData>) : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
+class TaskAdapter(
+    val c: Context,
+    val taskFragment: TaskFragment,
+    ) : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>()
+{
+
     var cal: Calendar = Calendar.getInstance()
     var date : String = ""
 
@@ -23,6 +29,7 @@ class TaskAdapter(val c: Context, val mTask: ArrayList<TaskData>) : RecyclerView
         var dueDate: TextView
         var description: TextView
         var mMenus: ImageView
+        var mFrogTaskViewModel = ViewModelProvider(taskFragment)[FrogTaskViewModel::class.java]
 
         init {
             taskName = vTask.findViewById<TextView>(R.id.mTaskName)
@@ -35,7 +42,7 @@ class TaskAdapter(val c: Context, val mTask: ArrayList<TaskData>) : RecyclerView
         }
 
         private fun popupMenus(v: View) {
-            val position = mTask[adapterPosition]
+            val position = mFrogTasks!![adapterPosition]
             val popupMenus = PopupMenu(c, v)
             popupMenus.inflate(R.menu.show_menu_task)
             popupMenus.setOnMenuItemClickListener {
@@ -65,8 +72,9 @@ class TaskAdapter(val c: Context, val mTask: ArrayList<TaskData>) : RecyclerView
                                 .setView(vTask)
                                 .setPositiveButton("Ok") {
                                     dialog,_->
-                                    position.name = name.text.toString()
-                                    position.description = description.text.toString()
+                                    position.task_name = name.text.toString()
+                                    position.task_description = description.text.toString()
+                                    mFrogTaskViewModel.updateFrogTask(position)
                                     notifyDataSetChanged()
                                     Toast.makeText(c, "Task Edited", Toast.LENGTH_SHORT).show()
                                     dialog.dismiss()
@@ -89,7 +97,7 @@ class TaskAdapter(val c: Context, val mTask: ArrayList<TaskData>) : RecyclerView
                             .setIcon(R.drawable.ic_warning)
                             .setMessage("Are you sure delete this Task?")
                             .setPositiveButton("Yes") { dialog, _ ->
-                                mTask.removeAt(adapterPosition)
+                                mFrogTaskViewModel.deleteFrogTask(position)
                                 notifyDataSetChanged()
                                 Toast.makeText(c, "Deleted Task", Toast.LENGTH_SHORT)
                                     .show()
@@ -122,15 +130,20 @@ class TaskAdapter(val c: Context, val mTask: ArrayList<TaskData>) : RecyclerView
         return TaskViewHolder(vTask)
     }
 
+    private var mFrogTasks: List<FrogTask>? = null
     override fun onBindViewHolder(holder: TaskAdapter.TaskViewHolder, position: Int) {
-        val newTask = mTask[position]
-        holder.taskName.text = newTask.name
-        holder.dueDate.text = newTask.dueDate
-        holder.description.text = newTask.description
+        val current = mFrogTasks!![position]
+        holder.taskName.text = current.task_name
+        holder.dueDate.text = current.task_date.toString()
+        holder.description.text = current.task_description
     }
 
     override fun getItemCount(): Int {
-        return mTask.size
+       if(mFrogTasks == null){
+           return 0
+       } else {
+           return mFrogTasks!!.size
+       }
     }
 
     private fun updateDateInView() {
@@ -139,4 +152,8 @@ class TaskAdapter(val c: Context, val mTask: ArrayList<TaskData>) : RecyclerView
         date = sdf.format(cal.getTime())
     }
 
+    fun setFrogTasks(frogTasks: List<FrogTask>?){
+        mFrogTasks = frogTasks
+        notifyDataSetChanged()
+    }
 }

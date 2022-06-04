@@ -9,7 +9,7 @@ interface FrogListDAO {
     //ListDAO
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun addNewList(frogList: FrogList)
+    suspend fun addNewList(frogList: FrogList?)
 
     @Query("SELECT * FROM FrogList ORDER BY list_name ASC")
     fun getAllFrogLists(): LiveData<List<FrogList>>

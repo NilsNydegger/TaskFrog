@@ -8,6 +8,6 @@ data class FrogTask(
     @PrimaryKey(autoGenerate = true) val frogTaskId: Int?,
     @ColumnInfo var task_name: String?,
     @ColumnInfo var task_description: String?,
-    @ColumnInfo var task_date: Date?,
+    @ColumnInfo var task_date: String?,
     @ColumnInfo var belongs_to_list: Int?
 )
