@@ -8,8 +8,11 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.taskfrog.R
 import com.example.taskfrog.databinding.FragmentHomeBinding
+import com.example.taskfrog.ui.list.ListFragment
+import com.example.taskfrog.ui.list.TaskFragment
 
 class HomeFragment : Fragment() {
     private lateinit var listButton : Button
@@ -39,9 +42,13 @@ class HomeFragment : Fragment() {
         listButton = view.findViewById(R.id.ferg)!!
         calendarButton = view.findViewById(R.id.forg)!!
 
-        listButton.setOnClickListener {  }
+        listButton.setOnClickListener {
+            findNavController().navigate(R.id.navigation_list)
+        }
 
-        calendarButton.setOnClickListener {  }
+        calendarButton.setOnClickListener {
+            findNavController().navigate(R.id.navigation_calendar)
+        }
     }
 
     override fun onDestroyView() {

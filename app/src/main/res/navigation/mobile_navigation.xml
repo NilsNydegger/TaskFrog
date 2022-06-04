@@ -31,7 +31,7 @@
     <fragment
         android:id="@+id/taskFragment"
         android:name="com.example.taskfrog.ui.list.TaskFragment"
-        android:label="fragment_task"
+        android:label="Tasks"
         tools:layout="@layout/fragment_task" >
         <action
             android:id="@+id/action_taskFragment_to_navigation_list"
