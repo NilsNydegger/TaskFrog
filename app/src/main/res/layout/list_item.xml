@@ -40,6 +40,15 @@
             android:layout_margin="10dp"
             android:contentDescription="@string/more"
             android:src="@drawable/ic_more" />
+
+        <ImageView
+            android:id="@+id/list_id"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_margin="0dp"
+            android:contentDescription="@string/invisible_list_id"
+            android:src="@drawable/ic_more" />
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

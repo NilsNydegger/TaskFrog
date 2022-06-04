@@ -22,12 +22,15 @@ class ListAdapter(
     inner class ListViewHolder(v: View, private val onItemClicked: (position: Int) -> Unit) : RecyclerView.ViewHolder(v), View.OnClickListener {
         var listName: TextView
         var mMenus: ImageView
+        var listId: TextView
         var mFrogListViewModel = ViewModelProvider(listFragment).get(FrogListViewModel::class.java)
 
         init {
             v.setOnClickListener(this)
             listName = v.findViewById<TextView>(R.id.mTitle)
             mMenus = v.findViewById(R.id.mMenus)
+            listId = v.findViewById(R.id.list_id)
+
             mMenus.setOnClickListener {
                 popupMenus(it)
             }
@@ -110,6 +113,7 @@ class ListAdapter(
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         val current = mFrogLists!![position]
         holder.listName.text = current.list_name
+        holder.listId.text = current.frogListId.toString() //TODO Not Sure yet if this is correct!!!
     }
 
     override fun getItemCount(): Int {

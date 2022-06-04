@@ -90,7 +90,7 @@ class TaskFragment : Fragment() {
                 dialog,_->
             val name = taskName.text.toString()
             val description = description.text.toString()
-            val frogTask = FrogTask(null, name, description, date, 0)
+            val frogTask = FrogTask(null, name, description, date, tempListId)
             mFrogTaskViewModel.addFrogTask(frogTask)
             taskAdapter.notifyDataSetChanged()
             Toast.makeText(this.requireContext(), "Adding Task Success", Toast.LENGTH_SHORT).show()

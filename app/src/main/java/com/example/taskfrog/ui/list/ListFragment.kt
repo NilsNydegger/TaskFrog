@@ -25,6 +25,7 @@ class ListFragment : Fragment() {
     private lateinit var listAdapter: ListAdapter
     private lateinit var mFrogListViewModel: FrogListViewModel
     private var _binding: FragmentListBinding? = null
+    private var tempListId: Int = 0
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -87,10 +88,6 @@ class ListFragment : Fragment() {
     private fun onListItemClick(position: Int) {
         val taskFragment = TaskFragment()
         taskFragment.setListId(0) //TODO Replace Position with Id of List
-        //requireActivity().supportFragmentManager.beginTransaction()
-        //    .replace(this.id, taskFragment, "findThisFragment")
-        //    .addToBackStack(null)
-        //    .commit()
         findNavController().navigate(R.id.action_navigation_list_to_taskFragment)
     }
 
