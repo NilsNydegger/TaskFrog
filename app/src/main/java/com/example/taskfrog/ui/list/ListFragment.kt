@@ -47,6 +47,7 @@ class ListFragment : Fragment() {
         listAdapter = ListAdapter(this.requireContext(), this){ position -> onListItemClick(position)}
         listRecyclerView.layoutManager = LinearLayoutManager(this.requireContext())
         listRecyclerView.adapter = listAdapter
+
         mFrogListViewModel = ViewModelProvider(this).get(FrogListViewModel::class.java)
         mFrogListViewModel!!.getAllLists!!.observe(viewLifecycleOwner) {
                 frogLists -> listAdapter.setFrogLists(frogLists)
