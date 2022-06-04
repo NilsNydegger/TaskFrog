@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -43,20 +44,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:autofillHints="" />
+
         <Button
             android:id="@+id/taskDate"
-            android:hint="@string/select_due_date"
-            android:textColor="@color/purple_500"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="15dp"
             android:background="@drawable/shape_background"
+            android:hint="@string/select_due_date"
             android:padding="15dp"
+            android:textColor="@color/white"
+            android:textColorHint="#FFFFFF"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="15dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            app:icon="@drawable/ic_calendar_month_black_24dp" />
         <EditText
             android:id="@+id/taskDescription"
             android:hint="@string/enter_description"
@@ -71,7 +75,8 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="15dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:autofillHints="" />
 
 
 
