@@ -1,6 +1,5 @@
 package com.example.taskfrog.ui.list
 
-import android.app.Application
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,7 +12,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskfrog.R
-import com.example.taskfrog.databinding.FragmentListBinding
 import com.example.taskfrog.databinding.FragmentTaskBinding
 import com.example.taskfrog.room.FrogTask
 import com.example.taskfrog.room.FrogTaskViewModel
@@ -30,7 +28,7 @@ class TaskFragment : Fragment() {
     private lateinit var mFrogTaskViewModel : FrogTaskViewModel
     private var _binding : FragmentTaskBinding? = null
     private lateinit var date : String
-    var tempListId: Int = 0
+    var tempListId: Int = ListFragment.frogListId
     var cal = Calendar.getInstance()
 
     private val binding get() = _binding!!
@@ -90,7 +88,7 @@ class TaskFragment : Fragment() {
                 dialog,_->
             val name = taskName.text.toString()
             val description = description.text.toString()
-            val frogTask = FrogTask(null, name, description, date, 0)
+            val frogTask = FrogTask(null, name, description, date, tempListId) //TODO: Did this prematurely
             mFrogTaskViewModel.addFrogTask(frogTask)
             taskAdapter.notifyDataSetChanged()
             Toast.makeText(this.requireContext(), "Adding Task Success", Toast.LENGTH_SHORT).show()
@@ -111,7 +109,7 @@ class TaskFragment : Fragment() {
         date = sdf.format(cal.getTime())
     }
 
-    public fun setListId(listId: Int){
+    fun setListId(listId: Int){
         this.tempListId = listId
     }
 }

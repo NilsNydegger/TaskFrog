@@ -32,6 +32,10 @@ class ListFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
+    companion object {
+        var frogListId = 0
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -88,11 +92,12 @@ class ListFragment : Fragment() {
     }
 
     private fun onListItemClick(position: Int) {
-        val taskFragment = TaskFragment()
         val item = listRecyclerView[position]
         val listIdElement = item.findViewById<TextView>(R.id.list_id)
         val listIdText = listIdElement.text.toString()
         val listId = listIdText.toInt()
+        frogListId = listId
+        val taskFragment = TaskFragment()
         taskFragment.setListId(listId)
         findNavController().navigate(R.id.action_navigation_list_to_taskFragment)
     }
