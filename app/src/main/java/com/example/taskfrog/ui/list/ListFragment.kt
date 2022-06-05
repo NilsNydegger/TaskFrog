@@ -34,6 +34,7 @@ class ListFragment : Fragment() {
 
     companion object {
         var frogListId = 0
+        var frogListName = "Tasks"
     }
 
     override fun onCreateView(
@@ -97,6 +98,7 @@ class ListFragment : Fragment() {
         val listIdText = listIdElement.text.toString()
         val listId = listIdText.toInt()
         frogListId = listId
+        frogListName = item.findViewById<TextView>(R.id.mTitle).text.toString()
         val taskFragment = TaskFragment()
         taskFragment.setListId(listId)
         findNavController().navigate(R.id.action_navigation_list_to_taskFragment)

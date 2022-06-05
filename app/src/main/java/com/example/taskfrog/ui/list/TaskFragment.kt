@@ -19,8 +19,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.text.SimpleDateFormat
 import java.util.*
 
-//TODO Back Button and Title of Fragment
-
 class TaskFragment : Fragment() {
     private lateinit var taskFab : FloatingActionButton
     private lateinit var taskRecyclerView : RecyclerView
@@ -29,6 +27,7 @@ class TaskFragment : Fragment() {
     private var _binding : FragmentTaskBinding? = null
     private lateinit var date : String
     var tempListId: Int = ListFragment.frogListId
+    var tempListName: String = ListFragment.frogListName
     var cal = Calendar.getInstance()
 
     private val binding get() = _binding!!
