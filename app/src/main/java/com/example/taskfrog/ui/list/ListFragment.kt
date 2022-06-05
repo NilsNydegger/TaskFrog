@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -29,6 +31,10 @@ class ListFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+
+    companion object {
+        var frogListId = 0
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -86,12 +92,13 @@ class ListFragment : Fragment() {
     }
 
     private fun onListItemClick(position: Int) {
+        val item = listRecyclerView[position]
+        val listIdElement = item.findViewById<TextView>(R.id.list_id)
+        val listIdText = listIdElement.text.toString()
+        val listId = listIdText.toInt()
+        frogListId = listId
         val taskFragment = TaskFragment()
-        taskFragment.setListId(0) //TODO Replace Position with Id of List
-        //requireActivity().supportFragmentManager.beginTransaction()
-        //    .replace(this.id, taskFragment, "findThisFragment")
-        //    .addToBackStack(null)
-        //    .commit()
+        taskFragment.setListId(listId)
         findNavController().navigate(R.id.action_navigation_list_to_taskFragment)
     }
 

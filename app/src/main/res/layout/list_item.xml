@@ -40,6 +40,15 @@
             android:layout_margin="10dp"
             android:contentDescription="@string/more"
             android:src="@drawable/ic_more" />
+
+        <TextView
+            android:id="@+id/list_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="0dp"
+            android:text="@string/invisiblelistid"
+            android:contentDescription="@string/invisiblelistid"/>
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>
