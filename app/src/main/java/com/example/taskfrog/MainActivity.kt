@@ -1,6 +1,7 @@
 package com.example.taskfrog
 
 import android.os.Bundle
+import android.view.View
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -26,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, R.id.navigation_list, R.id.navigation_calendar
+                R.id.navigation_list, R.id.navigation_calendar
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)

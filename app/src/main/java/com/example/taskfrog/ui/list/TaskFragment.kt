@@ -9,6 +9,7 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskfrog.R
@@ -27,7 +28,6 @@ class TaskFragment : Fragment() {
     private var _binding : FragmentTaskBinding? = null
     private lateinit var date : String
     var tempListId: Int = ListFragment.frogListId
-    var tempListName: String = ListFragment.frogListName
     var cal = Calendar.getInstance()
 
     private val binding get() = _binding!!
@@ -110,5 +110,11 @@ class TaskFragment : Fragment() {
 
     fun setListId(listId: Int){
         this.tempListId = listId
+    }
+
+    //TODO Either use method or delete
+    override fun onDestroyView() {
+        super.onDestroyView()
+        //findNavController().navigate(R.id.navigation_list)
     }
 }
