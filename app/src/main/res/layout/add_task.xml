@@ -32,7 +32,7 @@
             android:id="@+id/taskName"
             android:hint="@string/enter_task_name"
             android:inputType="textPersonName"
-            android:textColor="@color/greyGreen"
+            android:textColor="@color/darkerGreen"
             android:textSize="18sp"
             android:textStyle="bold"
             android:background="@drawable/shape_background"
@@ -56,7 +56,7 @@
             android:backgroundTint="@color/lighterGreen"
             android:hint="@string/select_due_date"
             android:padding="15dp"
-            android:textColor="@color/greyGreen"
+            android:textColor="@color/darkerGreen"
             android:textColorHighlight="@color/lighterGreen"
             android:textColorHint="@color/greyGreen"
             android:textColorLink="@color/lighterGreen"
@@ -64,12 +64,12 @@
             android:textStyle="bold"
             app:cornerRadius="15dp"
             app:icon="@drawable/ic_calendar_month_black_24dp"
-            app:iconTint="@color/greyGreen" />
+            app:iconTint="@color/darkerGreen" />
         <EditText
             android:id="@+id/taskDescription"
             android:hint="@string/enter_description"
             android:inputType="textLongMessage"
-            android:textColor="@color/purple_500"
+            android:textColor="@color/darkerGreen"
             android:background="@drawable/shape_background"
             android:padding="15dp"
             android:textSize="18sp"
