@@ -87,7 +87,7 @@ class TaskFragment : Fragment() {
                 dialog,_->
             val name = taskName.text.toString()
             val description = description.text.toString()
-            val frogTask = FrogTask(null, name, description, date, tempListId) //TODO: Did this prematurely
+            val frogTask = FrogTask(null, name, description, date, tempListId)
             mFrogTaskViewModel.addFrogTask(frogTask)
             taskAdapter.notifyDataSetChanged()
             Toast.makeText(this.requireContext(), "Adding Task Success", Toast.LENGTH_SHORT).show()
@@ -110,11 +110,5 @@ class TaskFragment : Fragment() {
 
     fun setListId(listId: Int){
         this.tempListId = listId
-    }
-
-    //TODO Either use method or delete
-    override fun onDestroyView() {
-        super.onDestroyView()
-        //findNavController().navigate(R.id.navigation_list)
     }
 }
