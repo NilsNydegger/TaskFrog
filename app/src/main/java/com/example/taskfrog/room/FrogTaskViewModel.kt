@@ -45,9 +45,9 @@ class FrogTaskViewModel(application: Application): AndroidViewModel(application)
         getAllTasks = frogTaskRepository.getAllFrogTasks(listId)
     }
 
-    fun dateInitialize(frogDate: LocalDate){
-        this.frogDate = updateDateInView(frogDate)
-        getAllTasksFromDate = frogTaskRepository.getFrogTasksFromDate(this.frogDate)
+    fun dateInitialize(date: String){
+        frogDate = date
+        getAllTasksFromDate = frogTaskRepository.getFrogTasksFromDate(frogDate)
     }
 
     private fun updateDateInView(frogDate: LocalDate): String {

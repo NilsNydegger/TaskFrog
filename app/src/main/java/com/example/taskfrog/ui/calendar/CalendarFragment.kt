@@ -40,8 +40,8 @@ class CalendarFragment : Fragment() {
         //TODO: This
         binding.calendarView.setOnDateChangeListener{
             view, year, month, dayOfMonth ->
-            val msg = "Selected date is " + dayOfMonth + "/" + (month + 1) + "/" + year
-            Toast.makeText(this.requireContext(), msg, Toast.LENGTH_SHORT).show()
+            val date = dayOfMonth.toString() + "." + (month + 1).toString() + "." + year.toString()
+            Toast.makeText(this.requireContext(), date, Toast.LENGTH_SHORT).show()
         }
 
         return root
