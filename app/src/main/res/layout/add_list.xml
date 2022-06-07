@@ -15,34 +15,36 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:ignore="UselessParent">
+
         <TextView
-            android:text="@string/add_listName"
-            android:textStyle="bold"
-            android:textSize="19sp"
-            android:textColor="@color/white"
-            android:background="@color/purple_500"
-            android:padding="10dp"
-            android:elevation="15dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <EditText
-            android:id="@+id/listName"
-            android:hint="@string/enter_list_name"
-            android:inputType="textPersonName"
-            android:textColor="@color/purple_500"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:background="@drawable/shape_background"
-            android:padding="15dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:autofillHints="" />
+            android:layout_gravity="center"
+            android:background="@color/darkerGreen"
+            android:elevation="15dp"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/add_listName"
+            android:textColor="@color/white"
+            android:textSize="19sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/listName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="5dp"
+            android:autofillHints=""
+            android:background="@drawable/shape_background"
+            android:hint="@string/enter_list_name"
+            android:inputType="textPersonName"
+            android:padding="15dp"
+            android:textColor="@color/greyGreen"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
 
 
