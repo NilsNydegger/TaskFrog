@@ -39,6 +39,11 @@ android {
 }
 
 dependencies {
+    //Espresso
+    androidTestImplementation('androidx.test.espresso:espresso-core:3.4.0')
+    androidTestImplementation('androidx.test:runner:1.4.0')
+    androidTestImplementation('androidx.test:rules:1.4.0')
+
     //Room Database
     def room_version = "2.4.2"
     implementation "androidx.room:room-runtime:$room_version"
