@@ -1,5 +1,6 @@
 package com.example.taskfrog.ui.list
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.view.LayoutInflater
@@ -16,28 +17,32 @@ class ListAdapter(
     val c: Context,
     val listFragment: ListFragment,
     private val onItemClicked: (position: Int) -> Unit
-) : RecyclerView.Adapter<ListAdapter.ListViewHolder>()
-{
+) : RecyclerView.Adapter<ListAdapter.ListViewHolder>() {
 
-    inner class ListViewHolder(v: View, private val onItemClicked: (position: Int) -> Unit) : RecyclerView.ViewHolder(v), View.OnClickListener {
+    inner class ListViewHolder(v: View, private val onItemClicked: (position: Int) -> Unit) :
+        RecyclerView.ViewHolder(v), View.OnClickListener {
         var listName: TextView
         var listId: TextView
         var mMenus: ImageView
-        var mFrogListViewModel = ViewModelProvider(listFragment).get(FrogListViewModel::class.java)
+        var mFrogListViewModel = ViewModelProvider(listFragment)[FrogListViewModel::class.java]
 
         init {
             v.setOnClickListener(this)
-            listName = v.findViewById<TextView>(R.id.mTitle)
-            listId = v.findViewById<TextView>(R.id.list_id)
+            listName = v.findViewById(R.id.mTitle)
+            listId = v.findViewById(R.id.list_id)
             mMenus = v.findViewById(R.id.mMenus)
             mMenus.setOnClickListener {
                 popupMenus(it)
             }
         }
 
-        private fun popupMenus(v:View) {
+        @SuppressLint(
+            "NotifyDataSetChanged",
+            "DiscouragedPrivateApi"
+        ) //NotifyDataSetChanged is a little broad but we chose this for lack of better alternative
+        private fun popupMenus(view: View) {
             val position = mFrogLists!![adapterPosition]
-            val popupMenus = PopupMenu(c, v)
+            val popupMenus = PopupMenu(c, view)
             popupMenus.inflate(R.menu.show_menu_list)
             popupMenus.setOnMenuItemClickListener {
                 when (it.itemId) {
@@ -64,7 +69,6 @@ class ListAdapter(
                         true
                     }
                     R.id.delete -> {
-                        /**set delete*/
                         AlertDialog.Builder(c)
                             .setTitle("Delete")
                             .setIcon(R.drawable.ic_warning)
@@ -89,7 +93,8 @@ class ListAdapter(
 
             }
             popupMenus.show()
-            val popup = PopupMenu::class.java.getDeclaredField("mPopup")
+            val popup =
+                PopupMenu::class.java.getDeclaredField("mPopup") //TODO: Suppressed Warning - Find alternative in future patch
             popup.isAccessible = true
             val menu = popup.get(popupMenus)
             menu.javaClass.getDeclaredMethod("setForceShowIcon", Boolean::class.java)
@@ -104,7 +109,7 @@ class ListAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val v = inflater.inflate(R.layout.list_item,parent, false)
+        val v = inflater.inflate(R.layout.list_item, parent, false)
         return ListViewHolder(v, onItemClicked)
     }
 
@@ -116,13 +121,14 @@ class ListAdapter(
     }
 
     override fun getItemCount(): Int {
-        if(mFrogLists == null){
-            return 0
+        return if (mFrogLists == null) {
+            0
         } else {
-            return mFrogLists!!.size
+            mFrogLists!!.size
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged") //NotifyDataSetChanged is a little broad but we chose this for lack of better alternative
     fun setFrogLists(frogLists: List<FrogList>?) {
         mFrogLists = frogLists
         notifyDataSetChanged()

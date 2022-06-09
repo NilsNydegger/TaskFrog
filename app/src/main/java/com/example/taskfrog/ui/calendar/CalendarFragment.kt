@@ -1,12 +1,11 @@
 package com.example.taskfrog.ui.calendar
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CalendarView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.taskfrog.R
@@ -19,8 +18,6 @@ class CalendarFragment : Fragment() {
     private var _binding: FragmentCalendarBinding? = null
     private lateinit var frogTaskViewModel: FrogTaskViewModel
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -32,24 +29,20 @@ class CalendarFragment : Fragment() {
 
         _binding = FragmentCalendarBinding.inflate(inflater, container, false)
 
-        val calendarView = view?.findViewById<CalendarView>(R.id.calendarView)
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //TODO: This
-        binding.calendarView.setOnDateChangeListener{
-                view, year, month, dayOfMonth ->
-            val date: String = createDateString(year, month, dayOfMonth)
+        binding.calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
+            val date: String = createStringFromDate(year, month, dayOfMonth)
             fillRecyclerView(date)
-            Toast.makeText(this.requireContext(), date, Toast.LENGTH_SHORT).show() //TODO: Remove that in the end
         }
     }
 
-    private fun fillRecyclerView(date: String){
+    @SuppressLint("SetTextI18n") //There is currently no need for translations, one language is fine for now
+    private fun fillRecyclerView(date: String) {
         //TODO: This should optimally be a recyclerview but not for now
         frogTaskViewModel.dateInitialize(date)
         val textTaskListView = view?.findViewById<TextView>(R.id.calendarTasksOfDay)
@@ -57,10 +50,10 @@ class CalendarFragment : Fragment() {
         Thread.sleep(20)
         frogTaskViewModel.getAllTasksFromDate
         val listOfTasksOfDay: List<FrogTask> = frogTaskViewModel.getAllTasksFromDate
-        if(listOfTasksOfDay.isNotEmpty()) {
+        if (listOfTasksOfDay.isNotEmpty()) {
             var textListOfLists = "Tasks for Today:"
             var lineOfTask: String
-            for (frogList in listOfTasksOfDay){
+            for (frogList in listOfTasksOfDay) {
                 lineOfTask = "${frogList.task_name} - ${frogList.task_description}"
                 textListOfLists = "$textListOfLists \n \n $lineOfTask"
             }
@@ -70,22 +63,22 @@ class CalendarFragment : Fragment() {
         }
     }
 
-    private fun createDateString(year: Int, month: Int, dayOfMonth: Int): String{
+    private fun createStringFromDate(year: Int, month: Int, dayOfMonth: Int): String {
         //Assigning Values is not very nice but it makes the code more understandable overall
         var dayOfMonthString = "12"
         var monthString = "12"
         var yearString = "2000"
         val correctMonth = month + 1
 
-        if(dayOfMonth < 10){
-            dayOfMonthString = "0$dayOfMonth"
+        dayOfMonthString = if (dayOfMonth < 10) {
+            "0$dayOfMonth"
         } else {
-            dayOfMonthString = "$dayOfMonth"
+            "$dayOfMonth"
         }
-        if(correctMonth < 10){
-            monthString = "0$correctMonth"
+        monthString = if (correctMonth < 10) {
+            "0$correctMonth"
         } else {
-            monthString = "$correctMonth"
+            "$correctMonth"
         }
         yearString = "$year"
 

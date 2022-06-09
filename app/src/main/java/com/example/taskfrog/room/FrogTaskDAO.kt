@@ -12,7 +12,6 @@ interface FrogTaskDAO {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addNewFrogTask(frogTask: FrogTask?)
 
-    //TODO: Test this! Mightn't be correct but it seems nice
     @Query("SELECT * FROM FrogTask WHERE belongs_to_list = :frogListId ORDER BY task_name ASC")
     fun getAllTasksFromList(frogListId: Int): LiveData<List<FrogTask>>
 

@@ -8,11 +8,10 @@ import androidx.room.*
     version = 3,
     exportSchema = false
 )
-@TypeConverters(Converters::class)
 abstract class FrogDatabase : RoomDatabase() {
 
-    abstract fun frogListDao() : FrogListDAO
-    abstract fun frogTaskDao() : FrogTaskDAO
+    abstract fun frogListDao(): FrogListDAO
+    abstract fun frogTaskDao(): FrogTaskDAO
 
     companion object {
         //We're making a Singleton FrogDatabase

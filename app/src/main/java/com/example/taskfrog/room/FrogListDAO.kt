@@ -6,8 +6,6 @@ import androidx.room.*
 @Dao
 interface FrogListDAO {
 
-    //ListDAO
-
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addNewList(frogList: FrogList?)
 

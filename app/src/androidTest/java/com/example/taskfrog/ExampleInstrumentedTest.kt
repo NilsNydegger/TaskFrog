@@ -1,6 +1,6 @@
 package com.example.taskfrog
 
-import android.support.test.espresso.contrib.RecyclerViewActions
+import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
@@ -9,6 +9,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.taskfrog.ui.list.ListAdapter
 
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -45,7 +46,7 @@ class ExampleInstrumentedTest {
     @Test
     fun chooseList(){
         Espresso.onView(withId(R.id.recyclerView)).perform(
-            RecyclerViewActions.scrollToPosition<ListAdapter.ListViewHolder>(0)
+            //RecyclerViewActions.scrollToPosition<ListAdapter.ListViewHolder>(0)
         )
 
         onView(withId(R.id.delete)).perform(click())

@@ -1,5 +1,6 @@
 package com.example.taskfrog.ui.list
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -22,14 +23,12 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
 class ListFragment : Fragment() {
-    private lateinit var listFloatingActionButton : FloatingActionButton
-    private lateinit var listRecyclerView : RecyclerView
+    private lateinit var listFloatingActionButton: FloatingActionButton
+    private lateinit var listRecyclerView: RecyclerView
     private lateinit var listAdapter: ListAdapter
     private lateinit var mFrogListViewModel: FrogListViewModel
     private var _binding: FragmentListBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     companion object {
@@ -52,13 +51,14 @@ class ListFragment : Fragment() {
         super.onViewCreated(listItemView, savedInstanceState)
         listFloatingActionButton = view?.findViewById(R.id.list_fab)!!
         listRecyclerView = view?.findViewById(R.id.recyclerView)!!
-        listAdapter = ListAdapter(this.requireContext(), this){ position -> onListItemClick(position)}
+        listAdapter =
+            ListAdapter(this.requireContext(), this) { position -> onListItemClick(position) }
         listRecyclerView.layoutManager = LinearLayoutManager(this.requireContext())
         listRecyclerView.adapter = listAdapter
 
         mFrogListViewModel = ViewModelProvider(this).get(FrogListViewModel::class.java)
-        mFrogListViewModel.getAllLists.observe(viewLifecycleOwner) {
-                frogLists -> listAdapter.setFrogLists(frogLists)
+        mFrogListViewModel.getAllLists.observe(viewLifecycleOwner) { frogLists ->
+            listAdapter.setFrogLists(frogLists)
         }
         listFloatingActionButton.setOnClickListener {
             addList()
@@ -66,16 +66,16 @@ class ListFragment : Fragment() {
 
     }
 
+    @SuppressLint("NotifyDataSetChanged") //NotifyDataSetChanged is a little broad but we chose this for lack of better alternative
     private fun addList() {
         val inflater = LayoutInflater.from(this.requireContext())
-        val v = inflater.inflate(com.example.taskfrog.R.layout.add_list, null)
+        val v = inflater.inflate(R.layout.add_list, null)
         val listName = v.findViewById<EditText>(com.example.taskfrog.R.id.listName)
 
         val addDialog = AlertDialog.Builder(this.requireContext())
 
         addDialog.setView(v)
-        addDialog.setPositiveButton("Ok"){
-            dialog,_ ->
+        addDialog.setPositiveButton("Ok") { dialog, _ ->
             val name = listName.text.toString()
             val frogList = FrogList(null, name)
             mFrogListViewModel.addFrogList(frogList)
@@ -83,8 +83,7 @@ class ListFragment : Fragment() {
             Toast.makeText(this.requireContext(), "Adding List Success", Toast.LENGTH_SHORT).show()
             dialog.dismiss()
         }
-        addDialog.setNegativeButton("Cancel"){
-            dialog, _ ->
+        addDialog.setNegativeButton("Cancel") { dialog, _ ->
             dialog.dismiss()
             Toast.makeText(this.requireContext(), "Cancel", Toast.LENGTH_SHORT).show()
         }
