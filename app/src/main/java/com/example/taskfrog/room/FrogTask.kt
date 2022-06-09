@@ -1,7 +1,6 @@
 package com.example.taskfrog.room
 
 import androidx.room.*
-import java.util.*
 
 @Entity
 data class FrogTask(

@@ -23,8 +23,8 @@ class ListAdapter(
         RecyclerView.ViewHolder(v), View.OnClickListener {
         var listName: TextView
         var listId: TextView
-        var mMenus: ImageView
-        var mFrogListViewModel = ViewModelProvider(listFragment)[FrogListViewModel::class.java]
+        private var mMenus: ImageView
+        private var mFrogListViewModel = ViewModelProvider(listFragment)[FrogListViewModel::class.java]
 
         init {
             v.setOnClickListener(this)
