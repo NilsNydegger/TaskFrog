@@ -12,9 +12,11 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskfrog.R
 import com.example.taskfrog.databinding.FragmentCalendarBinding
+import com.example.taskfrog.room.FrogTask
 import com.example.taskfrog.room.FrogTaskViewModel
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -50,16 +52,21 @@ class CalendarFragment : Fragment() {
         binding.calendarView.setOnDateChangeListener{
                 view, year, month, dayOfMonth ->
             val date: String = createDateString(year, month, dayOfMonth)
-            Toast.makeText(this.requireContext(), date, Toast.LENGTH_SHORT).show() //TODO: Remove that in the end
+            //Toast.makeText(this.requireContext(), date, Toast.LENGTH_SHORT).show() //TODO: Remove that in the end
             fillRecyclerView(date)
         }
     }
 
     private fun fillRecyclerView(date: String){
-        //frogTaskViewModel.dateInitialize(date)
-        //TODO: Have the List fill the recyclerview with adapter and above command
-        val recyclerview = view?.findViewById<RecyclerView>(R.id.calendarRecyclerView)
-        val calendarAdapter =
+        //TODO: Critical Code:
+        frogTaskViewModel.dateInitialize(date)
+        frogTaskViewModel.getAllTasksFromDate
+        //Critical Code:
+        var calendarFrogListList: List<FrogTask> = frogTaskViewModel.getAllTasksFromDate
+        if(calendarFrogListList.isNotEmpty()) {
+            var frogTaskTask: FrogTask = calendarFrogListList[0]
+            Toast.makeText(this.requireContext(), frogTaskTask.task_name, Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun createDateString(year: Int, month: Int, dayOfMonth: Int): String{
@@ -67,16 +74,17 @@ class CalendarFragment : Fragment() {
         var dayOfMonthString = "12"
         var monthString = "12"
         var yearString = "2000"
+        val correctMonth = month + 1
 
         if(dayOfMonth < 10){
             dayOfMonthString = "0$dayOfMonth"
         } else {
             dayOfMonthString = "$dayOfMonth"
         }
-        if(month < 10){
-            monthString = "0$month"
+        if(correctMonth < 10){
+            monthString = "0$correctMonth"
         } else {
-            monthString = "$month"
+            monthString = "$correctMonth"
         }
         yearString = "$year"
 

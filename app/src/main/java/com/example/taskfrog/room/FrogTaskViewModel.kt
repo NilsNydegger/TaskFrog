@@ -43,6 +43,8 @@ class FrogTaskViewModel(application: Application): AndroidViewModel(application)
 
     fun dateInitialize(date: String){
         tempFrogDate = date
-        getAllTasksFromDate = frogTaskRepository.getFrogTasksFromDate(tempFrogDate)
+        viewModelScope.launch(Dispatchers.IO) {
+            getAllTasksFromDate = frogTaskRepository.getFrogTasksFromDate(tempFrogDate)
+        }
     }
 }
