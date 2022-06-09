@@ -26,4 +26,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="invisiblelistid">InvisibleListID</string>
     <string name="taskListLabel">{listName} List</string>
+    <string name="there_are_no_tasks_for_today">There are no Tasks for Today</string>
 </resources>
