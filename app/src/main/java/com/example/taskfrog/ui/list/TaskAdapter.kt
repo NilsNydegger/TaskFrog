@@ -1,5 +1,6 @@
 package com.example.taskfrog.ui.list
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Context
@@ -18,29 +19,33 @@ import java.util.*
 class TaskAdapter(
     val c: Context,
     val taskFragment: TaskFragment,
-    ) : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>()
-{
+) : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
 
     var cal: Calendar = Calendar.getInstance()
-    var date : String = ""
+    private var date: String = ""
 
     inner class TaskViewHolder(vTask: View) : RecyclerView.ViewHolder(vTask) {
         var taskName: TextView
         var dueDate: TextView
         var description: TextView
-        var mMenus: ImageView
-        var mFrogTaskViewModel = ViewModelProvider(taskFragment)[FrogTaskViewModel::class.java]
+        private var mMenus: ImageView
+        private var mFrogTaskViewModel =
+            ViewModelProvider(taskFragment)[FrogTaskViewModel::class.java]
 
         init {
-            taskName = vTask.findViewById<TextView>(R.id.mTaskName)
-            dueDate = vTask.findViewById<TextView>(R.id.mDate)
-            description = vTask.findViewById<TextView>(R.id.mDescription)
+            taskName = vTask.findViewById(R.id.mTaskName)
+            dueDate = vTask.findViewById(R.id.mDate)
+            description = vTask.findViewById(R.id.mDescription)
             mMenus = vTask.findViewById(R.id.mMenus)
             mMenus.setOnClickListener {
                 popupMenus(it)
             }
         }
 
+        @SuppressLint(
+            "NotifyDataSetChanged",
+            "DiscouragedPrivateApi"
+        ) //NotifyDataSetChanged is a little broad but we chose this for lack of better alternative
         private fun popupMenus(v: View) {
             val position = mFrogTasks!![adapterPosition]
             val popupMenus = PopupMenu(c, v)
@@ -52,46 +57,44 @@ class TaskAdapter(
                         val name = vTask.findViewById<EditText>(R.id.taskName)
                         val dueDate = vTask.findViewById<Button>(R.id.taskDate)
                         val description = vTask.findViewById<EditText>(R.id.taskDescription)
-                        val dateSetListener = object : DatePickerDialog.OnDateSetListener {
-                            override fun onDateSet(view: DatePicker, year: Int, monthOfYear: Int, dayOfMonth: Int) {
+                        val dateSetListener =
+                            DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
                                 cal.set(Calendar.YEAR, year)
                                 cal.set(Calendar.MONTH, monthOfYear)
                                 cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
                                 updateDateInView()
                             }
+
+                        dueDate!!.setOnClickListener {
+                            DatePickerDialog(
+                                c, dateSetListener, cal.get(
+                                    Calendar.YEAR
+                                ), cal.get(Calendar.MONTH), cal.get(
+                                    Calendar.DAY_OF_MONTH
+                                )
+                            ).show()
                         }
+                        AlertDialog.Builder(c)
+                            .setView(vTask)
+                            .setPositiveButton("Ok") { dialog, _ ->
+                                position.task_name = name.text.toString()
+                                position.task_description = description.text.toString()
+                                mFrogTaskViewModel.updateFrogTask(position)
+                                notifyDataSetChanged()
+                                Toast.makeText(c, "Task Edited", Toast.LENGTH_SHORT).show()
+                                dialog.dismiss()
 
-                        dueDate!!.setOnClickListener(object : View.OnClickListener {
-                            override fun onClick(view : View) {
-                                DatePickerDialog(c, dateSetListener, cal.get(
-                                    Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(
-                                    Calendar.DAY_OF_MONTH)).show()
                             }
-                        })
-                            AlertDialog.Builder(c)
-                                .setView(vTask)
-                                .setPositiveButton("Ok") {
-                                    dialog,_->
-                                    position.task_name = name.text.toString()
-                                    position.task_description = description.text.toString()
-                                    mFrogTaskViewModel.updateFrogTask(position)
-                                    notifyDataSetChanged()
-                                    Toast.makeText(c, "Task Edited", Toast.LENGTH_SHORT).show()
-                                    dialog.dismiss()
+                            .setNegativeButton("Cancel") { dialog, _ ->
+                                dialog.dismiss()
 
-                                }
-                                .setNegativeButton("Cancel") {
-                                    dialog,_->
-                                    dialog.dismiss()
-
-                                }
-                                .create()
-                                .show()
+                            }
+                            .create()
+                            .show()
 
                         true
                     }
                     R.id.delete -> {
-                        /**set delete*/
                         AlertDialog.Builder(c)
                             .setTitle("Delete")
                             .setIcon(R.drawable.ic_warning)
@@ -116,7 +119,8 @@ class TaskAdapter(
 
             }
             popupMenus.show()
-            val popup = PopupMenu::class.java.getDeclaredField("mPopup")
+            val popup =
+                PopupMenu::class.java.getDeclaredField("mPopup") //TODO: Suppressed Warning - Find alternative in future patch
             popup.isAccessible = true
             val menu = popup.get(popupMenus)
             menu.javaClass.getDeclaredMethod("setForceShowIcon", Boolean::class.java)
@@ -126,7 +130,7 @@ class TaskAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskAdapter.TaskViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val vTask = inflater.inflate(R.layout.task_item,parent, false)
+        val vTask = inflater.inflate(R.layout.task_item, parent, false)
         return TaskViewHolder(vTask)
     }
 
@@ -139,20 +143,21 @@ class TaskAdapter(
     }
 
     override fun getItemCount(): Int {
-       if(mFrogTasks == null){
-           return 0
-       } else {
-           return mFrogTasks!!.size
-       }
+        return if (mFrogTasks == null) {
+            0
+        } else {
+            mFrogTasks!!.size
+        }
     }
 
     private fun updateDateInView() {
         val myFormat = "dd.MM.yyyy"
         val sdf = SimpleDateFormat(myFormat, Locale.GERMAN)
-        date = sdf.format(cal.getTime())
+        date = sdf.format(cal.time)
     }
 
-    fun setFrogTasks(frogTasks: List<FrogTask>?){
+    @SuppressLint("NotifyDataSetChanged") //NotifyDataSetChanged is a little broad but we chose this for lack of better alternative
+    fun setFrogTasks(frogTasks: List<FrogTask>?) {
         mFrogTasks = frogTasks
         notifyDataSetChanged()
     }

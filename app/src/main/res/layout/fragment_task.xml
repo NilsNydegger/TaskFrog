@@ -12,10 +12,12 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="40dp"
         android:layout_marginBottom="40dp"
+        android:backgroundTint="@color/lighterGreen"
         android:clickable="true"
         android:contentDescription="@string/addbutton"
         android:focusable="true"
         android:src="@drawable/ic_add_fill0_wght400_grad0_opsz48"
+        app:backgroundTint="@color/pastelGreen"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:ignore="ImageContrastCheck" />

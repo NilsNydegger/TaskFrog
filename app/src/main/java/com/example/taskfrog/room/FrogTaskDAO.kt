@@ -9,9 +9,11 @@ interface FrogTaskDAO {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addNewFrogTask(frogTask: FrogTask?)
 
-    //TODO: Test this! Mightn't be correct but it seems nice
     @Query("SELECT * FROM FrogTask WHERE belongs_to_list = :frogListId ORDER BY task_name ASC")
     fun getAllTasksFromList(frogListId: Int): LiveData<List<FrogTask>>
+
+    @Query("SELECT * FROM FrogTask WHERE task_date = :taskDate ORDER BY task_name ASC")
+    fun getAllTasksFromDate(taskDate: String): List<FrogTask>
 
     @Delete
     fun deleteFrogTask(frogTask: FrogTask?)

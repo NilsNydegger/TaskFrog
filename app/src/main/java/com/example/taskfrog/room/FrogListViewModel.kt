@@ -5,7 +5,7 @@ import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class FrogListViewModel(application: Application): AndroidViewModel(application) {
+class FrogListViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository: FrogListRepository
     var getAllLists: LiveData<List<FrogList>>
@@ -16,20 +16,20 @@ class FrogListViewModel(application: Application): AndroidViewModel(application)
         getAllLists = repository.getAllFrogLists()
     }
 
-    fun addFrogList(frogList: FrogList?){
-        viewModelScope.launch(Dispatchers.IO){
+    fun addFrogList(frogList: FrogList?) {
+        viewModelScope.launch(Dispatchers.IO) {
             repository.addFrogList(frogList)
         }
     }
 
-    fun updateFrogList(frogList: FrogList){
-        viewModelScope.launch(Dispatchers.IO){
+    fun updateFrogList(frogList: FrogList) {
+        viewModelScope.launch(Dispatchers.IO) {
             repository.updateFrogList(frogList)
         }
     }
 
-    fun deleteFrogList(frogList: FrogList){
-        viewModelScope.launch(Dispatchers.IO){
+    fun deleteFrogList(frogList: FrogList) {
+        viewModelScope.launch(Dispatchers.IO) {
             repository.deleteFrogList(frogList)
         }
     }

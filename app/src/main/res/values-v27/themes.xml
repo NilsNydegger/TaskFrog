@@ -1,17 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Base application theme. -->
+
     <style name="Theme.TaskFrog" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">#3db74f</item>
         <item name="colorPrimaryVariant">#94ff8f</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/lighterGreen</item>
-        <item name="colorSecondaryVariant">@color/lighterGreen</item>
+        <item name="colorSecondary">@color/darkerGreen</item>
+        <item name="colorSecondaryVariant">@color/darkerGreen</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/darkerGreen</item>
+        <!-- Navigation bar color. -->
         <item name="android:navigationBarColor">@color/pastelGreen</item>
+        <item name="android:windowLightNavigationBar">true</item>
         <!-- Customize your theme here. -->
     </style>
 </resources>

@@ -30,17 +30,20 @@
         <entry key="..\:/Daten/esa/TaskFrog/app/src/main/res/menu/show_menu.xml" value="0.1" />
         <entry key="..\:/Daten/esa/TaskFrog/app/src/main/res/menu/show_menu_list.xml" value="0.18611111111111112" />
         <entry key="..\:/Daten/esa/TaskFrog/app/src/main/res/menu/show_menu_task.xml" value="0.18611111111111112" />
+        <entry key="..\:/Files/Semester4/Android/Projekt/TaskFrog/app/src/main/res/drawable/ic_delete.xml" value="0.175" />
+        <entry key="..\:/Files/Semester4/Android/Projekt/TaskFrog/app/src/main/res/drawable/shape_background.xml" value="0.175" />
+        <entry key="..\:/Files/Semester4/Android/Projekt/TaskFrog/app/src/main/res/drawable/shape_background_button.xml" value="0.175" />
+        <entry key="..\:/Files/Semester4/Android/Projekt/TaskFrog/app/src/main/res/layout/activity_task.xml" value="0.25" />
+        <entry key="..\:/Files/Semester4/Android/Projekt/TaskFrog/app/src/main/res/layout/add_list.xml" value="0.25" />
+        <entry key="..\:/Files/Semester4/Android/Projekt/TaskFrog/app/src/main/res/layout/add_task.xml" value="0.25" />
+        <entry key="..\:/Files/Semester4/Android/Projekt/TaskFrog/app/src/main/res/layout/fragment_calendar.xml" value="0.25" />
         <entry key="..\:/Files/Semester4/Android/Projekt/TaskFrog/app/src/main/res/layout/fragment_home.xml" value="0.25" />
         <entry key="..\:/Files/Semester4/Android/Projekt/TaskFrog/app/src/main/res/layout/fragment_list.xml" value="0.25" />
+        <entry key="..\:/Files/Semester4/Android/Projekt/TaskFrog/app/src/main/res/layout/fragment_task.xml" value="0.25" />
+        <entry key="..\:/Files/Semester4/Android/Projekt/TaskFrog/app/src/main/res/layout/list_item.xml" value="0.25" />
+        <entry key="..\:/Files/Semester4/Android/Projekt/TaskFrog/app/src/main/res/layout/task_item.xml" value="0.25" />
         <entry key="..\:/Files/Semester4/Android/Projekt/TaskFrog/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1385" />
-        <entry key="..\:/Users/nilsn/StudioProjects/TaskFrog/app/src/main/res/layout/activity_main.xml" value="0.5" />
-        <entry key="..\:/Users/nilsn/StudioProjects/TaskFrog/app/src/main/res/layout/add_list.xml" value="0.5546875" />
-        <entry key="..\:/Users/nilsn/StudioProjects/TaskFrog/app/src/main/res/layout/add_task.xml" value="0.5546875" />
-        <entry key="..\:/Users/nilsn/StudioProjects/TaskFrog/app/src/main/res/layout/fragment_home.xml" value="0.5546875" />
         <entry key="..\:/Users/nilsn/StudioProjects/TaskFrog/app/src/main/res/layout/fragment_list.xml" value="0.32653985507246375" />
-        <entry key="..\:/Users/nilsn/StudioProjects/TaskFrog/app/src/main/res/layout/fragment_task.xml" value="0.5546875" />
-        <entry key="..\:/Users/nilsn/StudioProjects/TaskFrog/app/src/main/res/layout/list_item.xml" value="0.5546875" />
-        <entry key="..\:/Users/nilsn/StudioProjects/TaskFrog/app/src/main/res/layout/task_item.xml" value="0.5546875" />
       </map>
     </option>
   </component>
