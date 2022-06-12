@@ -63,7 +63,7 @@ class CalendarFragment : Fragment() {
         }
     }
 
-    private fun createStringFromDate(year: Int, month: Int, dayOfMonth: Int): String {
+    fun createStringFromDate(year: Int, month: Int, dayOfMonth: Int): String {
         //Assigning Values is not very nice but it makes the code more understandable overall
         var dayOfMonthString = "12"
         var monthString = "12"
